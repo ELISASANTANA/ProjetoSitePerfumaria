@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+
+<body>
+    <!--cabeçalho padrão do site-->
+    <header>
+        <p>
+           <h1> <a href="Home.html"><img src="imagens/Logo.png" alt="LogoPerfumaria" title=LogoPerfumaria></a>Perfumes</h1>
+        </p>
+        <nav>
+            <!--caixa de pesquisa-->
+            <form>
+                <input type="searh" name="pesquisa" id="pesq" placeholder="Navegue em nosso site">
+                <button><img src="imagens/pesq.png" alt="botao de pesquisa"></a></button>
+            </form>
+            <!--barra de navegação no cabeçalho so site, padrão para todas paginas da site-->
+            <ul>
+                <li><a href="#">Perfumaria</a></li>
+                <li><a href="#">Colônias</a></li>
+                <li><a href="#">Para o lar</a></li>
+                <li><a href="Home.html" _blank>Home</a></li>
+                <li><a href="Sobre.html" target="_blank">Sobre</a> </li>
+                <li><a href="Cadastro.html" target="_blank">Log in</a></li>
+                <li><a href=""><img src="imagens/sacola.png" alt="sacola de compras">Sacola</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!--Cadastro do site-->
+    <h2>CADASTRO</h2>
+    <form action="" method="">
+        <fieldset>
+            <legend>Dados pessoais</legend>
+            <p>
+                <label for="nome">Nome Completo:</label>
+                <input type="text" id="nome" placeholder="Digite seu nome completo">
+            </p>
+            <p>
+                <label for="CPF">CPF:</label>
+                <input type="number" id="CPF" placeholder="Digite seu CPF">
+            </p>
+            <p>
+                <label for="dataNascimento">Data de nascimento:</label>
+                <input type="date" id="idNascimento">
+            </p>
+            <p>
+                <label for="estado">Estado:</label>
+                <select name="estado" id="estado">
+                    <option value=""><b>Estado</b></option>
+                    <option value="AC">Acre</option>
+                    <option value="AL">Alagoas</option>
+                    <option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option>
+                    <option value="BA">Bahia</option>
+                    <option value="CE">Ceará</option>
+                    <option value="DF">Distrito Federal</option>
+                    <option value="ES">Espirito Santo</option>
+                    <option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option>
+                    <option value="MT">Mato Grosso</option>
+                    <option value="MS">Mato Grosso do Sul</option>
+                    <option value="MG">Minas Gerais</option>
+                    <option value="PA">Pará</option>
+                    <option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option>
+                    <option value="PE">Pernambuco</option>
+                    <option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option>
+                    <option value="RN">Rio Grande do Norte</option>
+                    <option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondônia</option>
+                    <option value="RR">Roraima</option>
+                    <option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option>
+                    <option value="SE">Sergipe</option>
+                    <option value="TO">Tocantins</option>
+                </select>
+            <p>
+                <label for="rua">Rua:</label>
+                <input type="text" name="rua" id="rua">
+
+                <label for="numero">Numero:</label>
+                <input type="number" name="numero" id="numero">
+
+                <label for="complemento">Complemento:</label>
+                <input type="text" name="complemento" id="complemento">
+
+                <label for="bairro">Bairro:</label>
+                <input type="text" name="bairro" id="bairro">
+            </p>
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Dados eletrônicos</legend>
+            <p>
+                <label for="email">Email:</label>
+                <input type="email" placeholder="Insira seu email">
+            </p>
+            <p>
+                <label for="senha">Senha:</label>
+                <input type="password" name="senha" id="senha" placeholder="Insira sua senha">
+            </p>
+            <p>
+                <label for="telefone">Telefone:</label>
+                <input type="tel" name="telefone" id="telefone" placeholder="(XX)X XXXX XXXX">
+            </p>
+            <p>
+                <label for="notificacao">Deseja receber alertas de ofertas do no site:</label>
+                <input type="radio" name="notificacao" id="notificacao">Gostaria
+                <input type="radio" name="notificacao" id="notificacao">Agora não
+            </p>
+        </fieldset>
+        <p>
+            <button type="reset">Limpar dados</button>
+            <button type="submit">Salvar</button>
+        </p>
+    </form>
+
+    <!--Padrão para todas as páginas-->
+    <footer>
+        <p>Formas de pagamento
+        <ul>
+            <li><a href="#"><img src="imagens/barcode.png" alt=""></a></li>
+            <li><a href="#"><img src="imagens/visa.png" alt=""></a></li>
+            <li><a href="#"><img src="imagens/mastercard.png" alt=""></a></li>
+            <li><a href="#"><img src="imagens/dinners.png" alt=""></a></li>
+            <li><a href="#"><img src="imagens/elo.png" alt=""></a></li>
+        </ul>
+        </p>
+        <p>Atendimento por telefone <br>
+            (12) 3069 5462 <br>
+            0900 895 8421
+        </p>
+        <p>Nos encontre nas mídias sociais
+        <ul>
+            <li><a href="#"><img src="imagens/iconFB.png" alt="Icon Facebook"></a></li>
+            <li><a href="#"><img src="imagens/iconTT.png" alt="Icon Twitter"></a></li>
+            <li><a href="#"><img src="imagens/iconIG.png" alt="Icon Instagram"></a></li>
+        </ul>
+        </p>
+        <p>
+            Perfumaria Mademoiselle S/A - CNPJ: 34.960.679/0001-82 <br>
+            Endereço: Rua Rio Grande do Sul, 0256 - Bairro Rio Comprido, Jacareí/SP CEP 12302-022 <br>
+            &copy Perfurmaria Mademoiselle
+        </p>
+    </footer>
+
+</body>
+</html>
