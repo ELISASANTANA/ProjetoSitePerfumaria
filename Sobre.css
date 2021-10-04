@@ -1,0 +1,223 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto';
+    font-weight: bolder;
+}
+
+/* teste e possivel implementação do plano de fundo */
+/* html{
+    background: url(imagens/bg.jpg);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
+}
+
+img.bg{
+    min-height: 100%;
+    min-width: 1024px;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+} */
+
+
+header{
+    width: 100%;
+    height: 165px;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+#logo{
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+
+header h1{
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.searchArea{
+    position: relative;
+    display:flex;
+    justify-content: right;
+    min-width: 150px;
+    margin-left: 80%;
+    margin-right: 50px;
+}
+
+.searchIcon{
+    position: absolute;
+    top: 5px;
+    left: 8px;
+    width: 14px;
+}
+
+.searchArea:hover, .searchArea:focus{
+    border: 1px solid #a03a50;
+    background-color: white;
+}
+
+.searchBox{
+    border: 2px solid #a03a50;
+    border-radius: 20px;
+    height: 25px;
+    width: 110%;
+    padding: 2px 23px 2px 30px;
+    outline: 0;
+    background-color: #f5f5f5;
+}
+
+nav div ul li {
+    list-style: none;
+    display: inline-block;
+    margin-left: 140px;
+}
+
+nav div ul li a{
+    text-decoration: overline;
+    text-decoration-color: #a03a50;
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+} 
+
+/* caixa de descrição do site */
+.description{
+    background-color: #a03a50;
+    width: 400px;
+    height: 300px;
+} 
+
+h2{
+    margin-top: 60px;
+    text-align: center;
+}
+
+.description{
+    display: inline-block;
+    margin-left: 35%;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px 1px #a03a50;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.description p{
+    padding-top: 10px;
+    text-align: center;
+    text-transform: lowercase;
+    font-size: 16px;
+}
+
+.main{
+    display: flex;
+    justify-content: right;
+}
+
+/* aside padrão das paginas do site */
+.navAside h4{
+    color: #a03a50;
+    text-decoration: overline;
+    text-decoration-color: #80c559;
+}
+
+
+.navAside{
+    width: 200px;
+    padding-top: 50px;
+    display: flex;
+    justify-content: right;
+    border-left: 1px solid #80c559;
+    margin-left: 350px;
+
+}
+
+.navAside ul{
+    text-transform: uppercase;
+
+} 
+
+.navAside ul li{
+    list-style: none;
+    margin-bottom: 15px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.navAside ul li a{
+    text-decoration: none;
+    color: #80c559;
+}
+
+/* footer padrao para todas as paginas */
+footer{
+    /* border-top: 2px solid #a03a50; */
+    display: flex;   
+    flex-direction: column;    
+    margin-top: 5px; 
+    width: 100%;   
+    height: 75px;   
+    justify-content: space-between;   
+    align-items: center;   
+    align-content: center;
+}
+
+ul li {
+    display: inline-block;
+    padding: 15px;
+}
+
+.pay{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    width: 90%;
+    height: 80px;
+    margin: 60px;
+}
+
+.container{
+    display: flex;
+    margin-top: -50px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    width: 90%;
+    height: 80px;
+}
+
+.tel{
+    padding: 50px;
+    line-height: 45px;
+    margin-top: -20px;
+}
+
+hr{
+    display: block;
+    width: 800px;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #a03a50;
+    margin-left: 50%;
+    margin: 1em 0;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.hrLine{
+    display: flex;
+    justify-content: center;
+}

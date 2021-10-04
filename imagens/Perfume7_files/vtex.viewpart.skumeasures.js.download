@@ -1,0 +1,98 @@
+﻿$(document).ready(function () {
+    var skuMeasuresListerner = new Vtex.JSEvents.Listener('skuMeasuresListerner', SkuMeasures_OnSkuDataReceived);
+    skuEventDispatcher.addListener(skuDataReceivedEventName, skuMeasuresListerner);
+});
+
+function formatNumber(n) {
+    return n.toFixed(2);
+}
+
+function SkuMeasures_OnSkuDataReceived(e) {
+    if (e.skuData.id > 0) {
+
+        //$('.dtSkuCompleteName').html(e.skuData.name);
+        //$('.lblAlturaReal').html(formatNumber(e.skuData.RealHeight));
+        //$('.lblLarguraReal').html(formatNumber(e.skuData.RealWidth));
+        //$('.lblComprimentoReal').html(formatNumber(e.skuData.RealLength));
+        //$('.lblPesoReal').html(formatNumber(e.skuData.RealWeightKg));
+        $('.sku-ean-code').html(e.skuData.Ean);
+        var controlId = '#p' + e.skuData.idProduct;
+        var m = $(controlId + 'hidden-meter').text();
+        var cm = $(controlId + 'hidden-centimeter').text();
+        var kg = $(controlId + 'hidden-kilo').text();
+        var g = $(controlId + 'hidden-grama').text();
+
+        if (e.skuData.RealHeight <= 0 && e.skuData.RealWidth <= 0 && e.skuData.RealLength <= 0 && e.skuData.RealWeightKg <= 0) {
+            $(controlId + '_dtSkuCompleteName').parent().parent().css('display', 'none');
+        }
+        else {
+            $(controlId + '_dtSkuCompleteName').parent().parent().removeAttr("style");
+
+            $(controlId + '_dtSkuCompleteName').html(e.skuData.name);
+
+            if (e.skuData.RealHeight > 0) {
+                $(controlId + '_measures-height').parent().removeAttr("style");
+
+                if (e.skuData.RealHeight < 100) {
+                    $(controlId + '_lblAlturaReal').html(formatNumber(e.skuData.RealHeight));
+                    $(controlId + '_measures-height').text(cm);
+                }
+                else {
+                    $(controlId + '_lblAlturaReal').html(formatNumber(e.skuData.RealHeight / 100));
+                    $(controlId + '_measures-height').text(m);
+                }
+            }
+            else {
+                $(controlId + '_measures-height').parent().css('display', 'none');
+            }
+
+            if (e.skuData.RealWidth > 0) {
+                $(controlId + '_measures-width').parent().removeAttr("style");
+
+                if (e.skuData.RealWidth < 100) {
+                    $(controlId + '_lblLarguraReal').html(formatNumber(e.skuData.RealWidth));
+                    $(controlId + '_measures-width').text(cm);
+                }
+                else {
+                    $(controlId + '_lblLarguraReal').html(formatNumber(e.skuData.RealWidth / 100));
+                    $(controlId + '_measures-width').text(m);
+                }
+            }
+            else {
+                $(controlId + '_measures-width').parent().css('display', 'none');
+            }
+
+            if (e.skuData.RealLength > 0) {
+                $(controlId + '_measures-length').parent().removeAttr("style");
+
+                if (e.skuData.RealLength < 100) {
+                    $(controlId + '_lblComprimentoReal').html(formatNumber(e.skuData.RealLength));
+                    $(controlId + '_measures-length').text(cm);
+                }
+                else {
+                    $(controlId + '_lblComprimentoReal').html(formatNumber(e.skuData.RealLength / 100));
+                    $(controlId + '_measures-length').text(m);
+                }
+            }
+            else {
+                $(controlId + '_measures-length').parent().css('display', 'none');
+            }
+
+            if (e.skuData.RealWeightKg > 0) {
+                $(controlId + '_measures-weight').parent().removeAttr("style");
+
+                if (e.skuData.RealWeightKg < 1000) {
+                    $(controlId + '_lblPesoReal').html(formatNumber(e.skuData.RealWeightKg));
+                    $(controlId + '_measures-weight').text(g);
+                }
+                else {
+                    $(controlId + '_lblPesoReal').html(formatNumber(e.skuData.RealWeightKg / 1000));
+                    $(controlId + '_measures-weight').text(kg);
+                }
+            }
+            else {
+                $(controlId + '_measures-weight').parent().css('display', 'none');
+            }
+        }
+    }
+}

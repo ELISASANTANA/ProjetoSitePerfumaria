@@ -1,0 +1,5 @@
+
+window[window["TiktokAnalyticsObject"]].instance("C3VI4K9U9OSLU1GC5NK0").setAdvancedMatchingAvailableProperties({"email":false,"phone_number":false});
+window[window["TiktokAnalyticsObject"]].instance("C3VI4K9U9OSLU1GC5NK0").setPixelInfo && window[window["TiktokAnalyticsObject"]].instance("C3VI4K9U9OSLU1GC5NK0").setPixelInfo({status: 0, name: "Pixel - Tik Tok - Época Cosméticos", advertiserID: "6986700771614015489", setupMode: 1, partner: "", is_onsite: false});
+window[window["TiktokAnalyticsObject"]].setPCMDomain && window[window["TiktokAnalyticsObject"]].setPCMDomain("epocacosmeticos.com.br");
+window[window["TiktokAnalyticsObject"]].setPCMConfig && window[window["TiktokAnalyticsObject"]].setPCMConfig([]);

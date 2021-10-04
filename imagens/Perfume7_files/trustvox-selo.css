@@ -1,0 +1,12 @@
+#trustvox-selo-site-sincero {
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  float: left;
+  position: relative;
+  left: 225px;
+    top: 8px;
+}
+
+#ts-certificate-modal-container #ts-certificate-overlay {z-index: 999999;}
+#ts-certificate-modal-container #ts-certificate-modal {z-index: 1000000;}

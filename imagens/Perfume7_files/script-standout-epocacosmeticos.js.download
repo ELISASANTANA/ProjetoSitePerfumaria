@@ -1,0 +1,433 @@
+var distributor = "epocacosmeticos";
+var codigoEmbed = "rO887gPGcvE,";
+
+if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+	StandoutJS();
+} else {
+	document.addEventListener('DOMContentLoaded', StandoutJS);
+}
+
+function StandoutJS() {
+
+	var bot = false;
+	var botPattern = "(googlebot\/|Googlebot-Mobile|Googlebot-Image|Google favicon|Mediapartners-Google|bingbot|slurp|java|wget|curl|Commons-HttpClient|Python-urllib|libwww|httpunit|nutch|phpcrawl|msnbot|jyxobot|FAST-WebCrawler|FAST Enterprise Crawler|biglotron|teoma|convera|seekbot|gigablast|exabot|ngbot|ia_archiver|GingerCrawler|webmon |httrack|webcrawler|grub.org|UsineNouvelleCrawler|antibot|netresearchserver|speedy|fluffy|bibnum.bnf|findlink|msrbot|panscient|yacybot|AISearchBot|IOI|ips-agent|tagoobot|MJ12bot|dotbot|woriobot|yanga|buzzbot|mlbot|yandexbot|purebot|Linguee Bot|Voyager|CyberPatrol|voilabot|baiduspider|citeseerxbot|spbot|twengabot|postrank|turnitinbot|scribdbot|page2rss|sitebot|linkdex|Adidxbot|blekkobot|ezooms|dotbot|Mail.RU_Bot|discobot|heritrix|findthatfile|europarchive.org|NerdByNature.Bot|sistrix crawler|ahrefsbot|Aboundex|domaincrawler|wbsearchbot|summify|ccbot|edisterbot|seznambot|ec2linkfinder|gslfbot|aihitbot|intelium_bot|facebookexternalhit|yeti|RetrevoPageAnalyzer|lb-spider|sogou|lssbot|careerbot|wotbox|wocbot|ichiro|DuckDuckBot|lssrocketcrawler|drupact|webcompanycrawler|acoonbot|openindexspider|gnam gnam spider|web-archive-net.com.bot|backlinkcrawler|coccoc|integromedb|content crawler spider|toplistbot|seokicks-robot|it2media-domain-crawler|ip-web-crawler.com|siteexplorer.info|elisabot|proximic|changedetection|blexbot|arabot|WeSEE:Search|niki-bot|CrystalSemanticsBot|rogerbot|360Spider|psbot|InterfaxScanBot|Lipperhey SEO Service|CC Metadata Scaper|g00g1e.net|GrapeshotCrawler|urlappendbot|brainobot|fr-crawler|binlar|SimpleCrawler|Livelapbot|Twitterbot|cXensebot|smtbot|bnf.fr_bot|A6-Indexer|ADmantX|Facebot|Twitterbot|OrangeBot|memorybot|AdvBot|MegaIndex|SemanticScholarBot|ltx71|nerdybot|xovibot|BUbiNG|Qwantify|archive.org_bot|Applebot|TweetmemeBot|crawler4j|findxbot|SemrushBot|yoozBot|lipperhey|y!j-asr|Domain Re-Animator Bot|AddThis)";
+	var re = new RegExp(botPattern, 'i');
+	var userAgent = navigator.userAgent;
+	if (re.test(userAgent)) {
+		bot = true;
+	}
+
+	var nVer = navigator.appVersion;
+	var nAgt = navigator.userAgent;
+	var browserName = navigator.appName;
+	var fullVersion = '' + parseFloat(navigator.appVersion);
+	var majorVersion = parseInt(navigator.appVersion, 10);
+	var nameOffset, verOffset, ix;
+
+	if ((verOffset = nAgt.indexOf('OPR/')) != -1) {
+		browserName = 'Opera';
+		fullVersion = nAgt.substring(verOffset + 4);
+	}
+
+	else if ((verOffset = nAgt.indexOf('Opera')) != -1) {
+		browserName = 'Opera';
+		fullVersion = nAgt.substring(verOffset + 6);
+		if ((verOffset = nAgt.indexOf('Version')) != -1)
+			fullVersion = nAgt.substring(verOffset + 8);
+	}
+
+	else if ((verOffset = nAgt.indexOf('MSIE')) != -1) {
+		browserName = 'Microsoft Internet Explorer';
+		fullVersion = nAgt.substring(verOffset + 5);
+	}
+
+	else if ((verOffset = nAgt.indexOf('Chrome')) != -1) {
+		browserName = 'Chrome';
+		fullVersion = nAgt.substring(verOffset + 7);
+	}
+
+	else if ((verOffset = nAgt.indexOf('Safari')) != -1) {
+		browserName = 'Safari';
+		fullVersion = nAgt.substring(verOffset + 7);
+		if ((verOffset = nAgt.indexOf('Version')) != -1)
+			fullVersion = nAgt.substring(verOffset + 8);
+	}
+
+	else if ((verOffset = nAgt.indexOf('Firefox')) != -1) {
+		browserName = 'Firefox';
+		fullVersion = nAgt.substring(verOffset + 8);
+	}
+
+	else if ((nameOffset = nAgt.lastIndexOf(' ') + 1) <
+		(verOffset = nAgt.lastIndexOf('/'))) {
+		browserName = nAgt.substring(nameOffset, verOffset);
+		fullVersion = nAgt.substring(verOffset + 1);
+		if (browserName.toLowerCase() == browserName.toUpperCase()) {
+			browserName = navigator.appName;
+		}
+	}
+
+	if ((ix = fullVersion.indexOf(';')) != -1)
+		fullVersion = fullVersion.substring(0, ix);
+	if ((ix = fullVersion.indexOf(' ')) != -1)
+		fullVersion = fullVersion.substring(0, ix);
+
+	majorVersion = parseInt('' + fullVersion, 10);
+	if (isNaN(majorVersion)) {
+		fullVersion = '' + parseFloat(navigator.appVersion);
+		majorVersion = parseInt(navigator.appVersion, 10);
+	}
+
+	var url = window.location.href;
+	var urlNew = url.replace("/#/", "/");
+
+	// CATCH EAN /*************************
+	var sku = '';
+	try {
+		var varejoEANRef = dataLayer[0].productEans;
+		if (varejoEANRef) {
+			var varejoEANRefDATA = varejoEANRef[0];
+			if (varejoEANRefDATA) {
+				sku = varejoEANRefDATA;
+				console.log('sku', sku);
+			}
+		}	
+	} catch (e) {
+		console.log('Não conseguiu pegar o SKU', );
+	}	
+	// CATCH EAN /*************************
+	
+	// CATCH PRECO/disponibilidade /*************************
+	var preco = '';
+	var disponibilidade = 0;
+	try {
+		var varejoPrecoRef = document.querySelectorAll("div.product__wrapper_infos div.product__floating-info--styck_wapper div.plugin-preco");
+		if (varejoPrecoRef.length > 0) {
+			for (var i = 0; i < varejoPrecoRef.length; i++) {
+				if (varejoPrecoRef[i].classList.contains('product__values--indisponivel')){
+					preco = 0;
+					disponibilidade = 0;
+					console.log('preco', preco);
+					console.log('disponibilidade', 'indisponivel');
+				} else {
+					preco = varejoPrecoRef[i].querySelector('.skuBestPrice').innerText.replace('R$','').replace(' ','').replace('Por','');
+					disponibilidade = 1;
+					console.log('preco', preco);
+					console.log('disponibilidade', 'disponivel');
+				}
+			}
+		}
+
+	} catch (e) {
+		console.log('Não conseguiu pegar o preço', );
+		preco = 0;
+		disponibilidade = 0;
+		console.log('preco', preco);
+		console.log('disponibilidade', 'indisponivel');
+	}
+	// CATCH PRECO /*************************
+
+	var action = 'PageView';
+	var browserName = browserName;
+	var browserVersion = fullVersion;
+	var geolocation = navigator.geolocarion;
+	var language = navigator.language;
+	var plataform = navigator.plataform;
+	var retailerDomain = window.location.hostname;
+	var monitored = 'false';
+	
+	//click 2 vitrines
+	var variableValue = '';
+	var skuVariableItems = document.querySelectorAll("div.sku-selector-container ul.Tamanhosku li.skuList input");
+	if(skuVariableItems) {
+		for (var i = 0; i < skuVariableItems.length; i++) {
+			skuVariableItems[i].onchange = function (e) {
+				//console.log('onchange',e.path[0].dataset.value);
+				var variableValue = e.path[0].dataset.value;
+				StandoutJS();
+			}
+			if(skuVariableItems[i].checked) {
+				//console.log('checked', skuVariableItems[i].value);
+				var variableValue = skuVariableItems[i].value;
+			}
+		}
+	}
+	
+	var data = "distributor=" + distributor + "&sku=" + sku + "&url=" + encodeURIComponent(urlNew) + "&action=" + action + "&variableValue=" + variableValue + "&browserName=" + browserName + "&browserVersion=" + browserVersion + "&geolocation=" + geolocation + "&language=" + language + "&plataform=" + plataform + "&monitored=" + monitored + "&preco="+preco+"&disponibilidade="+disponibilidade+"&bot="+bot;
+	var urlCatch = 'https://standout.com.br/' + distributor + '/catchtagGeralExata.php?' + data;
+
+	setTimeout(function () {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				var myObj = JSON.parse(this.responseText);
+				console.log(myObj);
+
+				// VERIFICA SE TEM MINI VITRINE
+				if (!myObj.mv == "" || !myObj.mv == null) {
+
+					var stdMVBTSContainer = document.getElementById("std-mv-bts-container");
+
+					if (stdMVBTSContainer == null) {
+
+						function getScript(url, callback) {
+							var scriptMVStd = document.createElement('script');
+							scriptMVStd.type = 'text/javascript';
+							scriptMVStd.src = url;
+							scriptMVStd.onload = callback;
+
+							document.getElementsByTagName('head')[0].appendChild(scriptMVStd);
+						}
+
+						getScript("https://s3-sa-east-1.amazonaws.com/assets.standout.com.br/js/scripts-minivitrines.js", function () {
+
+							//Adiciona CSS das MINI Vitrines
+							stdAddCssMV("https://s3-sa-east-1.amazonaws.com/assets.standout.com.br/css/style-mv-assets.css");
+
+							// Custom CSS Botões das MINI Vitrines
+							var MVCustomstyles = ".btn-open-special-container{max-width: 160px; z-index: 12;} .btn-open-special-container.horizontal {width: 160px; margin: 6px 0 0 100px;} .btn-open-special-container.horizontal.mobile {margin: 12px 0 0 0px;}"
+							var styleSheet = document.createElement("style");
+							styleSheet.type = "text/css";
+							styleSheet.innerText = MVCustomstyles;
+							document.head.appendChild(styleSheet);
+
+							//Variável para guardar a referência de onde deve entrar "geralmente desktop"
+							//Botões
+							var refIDStdProd = document.querySelector('div.product__info div.product__image');
+							//Mini Vitrines
+							var refIDStdProdMV = document.querySelector('div.page-wrapper div.page-content');
+
+							//Verifica se as referências Desktop existem, pois elas podem mudar quando estão na versão mobile
+							if (refIDStdProd == null) {
+								//Se vazia, faz tratamentos para versão mobile, buscando nova referência e setando "MVCustomMobile" true
+								var refIDStdProd = document.querySelector('div.product__image');
+								var MVCustomMobile = true;
+							}
+							if (refIDStdProdMV == null) {
+								var refIDStdProdMV = document.querySelector('div.page-wrapper div.page-content');
+							}
+
+							//Criando a DIV de marcação da Standout com ID para inserir os botões das mini vitrines
+							var divSTDProductID = document.createElement('div');
+							divSTDProductID.id = "productStdID";
+							divSTDProductID.setAttribute("style", "position: relative;");
+
+							//Criando a DIV de marcação da Standout com ID para inserir os conteúdos das mini vitrines
+							var divSTDProductIDMV = document.createElement('div');
+							divSTDProductIDMV.id = "productStdIDMV";
+
+							//Insere conteúdos na DIV da Standout antes da DIV de referência
+							function insertBefore(el, referenceNode) {
+								referenceNode.parentNode.insertBefore(el, referenceNode);
+							}
+							insertBefore(divSTDProductID, refIDStdProd);
+							insertBefore(divSTDProductIDMV, refIDStdProdMV);
+
+							//Adicionando o container dos botões das MINI Vitrines (Desktop ou Mobile)
+							if (!MVCustomMobile) {
+								var MVBTS = "<div id='std-mv-bts-container' class='btn-open-special-container horizontal'></div>";
+							} else {
+								var MVBTS = "<div id='std-mv-bts-container' class='btn-open-special-container horizontal mobile'></div>";
+							}
+							document.getElementById("productStdID").innerHTML += MVBTS;
+
+							//Adicionando os botões das MINI Vitrines
+							setTimeout(function () {
+								for (var i = 0; i < myObj.mv.length; i++) {
+
+									var stdMVSlug = myObj.mv[i].slug;
+
+									//Verifica e adiciona so botões
+									if (myObj.mv[i].tipo == "mv-foto") {
+										var MVBtFoto = "<div class='btn-open-special-animated horizontal' id='btn-" + stdMVSlug + "'><a href='#" + stdMVSlug + "' onclick='hitstdmv(\"" + myObj.mv[i].industria + "\",\"" + codigoEmbed + "\",\"" + myObj.mv[i].slugCat + "\",\"" + stdMVSlug + "\");'><svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='BtnEpocaMaisMV' x='0px' y='0px' viewBox='0 0 512 512' style='enable-background:new 0 0 512 512;zoom: 1;' xml:space='preserve'><g><path fill='#EB6694' d='M255,5.1C115.8,5.1,2.6,118.4,2.6,257.6S115.8,510,255,510s252.4-113.2,252.4-252.4S394.2,5.1,255,5.1z'></path></g><g><path fill='#ffffff' d='M148.4,274.6 v-37.2 h88.1 v-86.5 h37 v86.5 h88.1 v37.2 h-88.1 v86.5 h-37 v-86.5 H148.4 '></path></g></svg></a></div>";
+										document.getElementById("std-mv-bts-container").innerHTML += MVBtFoto;
+									} else if (myObj.mv[i].tipo == "mv-video") {
+										var MVBtVideo = "<div class='btn-open-special-animated horizontal' id='btn-" + stdMVSlug + "'><a href='#" + stdMVSlug + "' onclick='hitstdmv(\"" + myObj.mv[i].industria + "\",\"" + codigoEmbed + "\",\"" + myObj.mv[i].slugCat + "\",\"" + stdMVSlug + "\");'><svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='BtnEpocaPlayMV' x='0px' y='0px' viewBox='0 0 512 512' style='enable-background:new 0 0 512 512;zoom: 1;' xml:space='preserve' visibility='visible'><g visibility='visible'><path fill='#EB6694' d='M255,5.1 C115.800003,5.1 2.6,118.400002 2.6,257.600006 S115.800003,510 255,510 s252.4,-113.2 252.4,-252.4 S394.200012,5.1 255,5.1 ' visibility='visible'></path></g><path fill='#ffffff' d='M367.700012,247 l-177.6,-114.2 c-3.9,-2.5 -8.9,-2.7 -12.9,-0.5 c-4.1,2.2 -6.6,6.5 -6.6,11.1 v228.3 c0,4.6 2.5,8.9 6.6,11.1 c1.9,1 4,1.5 6.1,1.5 c2.4,0 4.8,-0.7 6.9,-2 l177.6,-114.2 c3.6,-2.3 5.8,-6.4 5.8,-10.7 C373.5,253.300003 371.299988,249.300003 367.700012,247 M196,348.5 V166.699997 l141.4,90.9 L196,348.5 '></path></svg></a></div>";
+										document.getElementById("std-mv-bts-container").innerHTML += MVBtVideo;
+									} else if (myObj.mv[i].tipo == "mv-audio"){
+										var MVBtAudio = "<div class='btn-open-special-animated horizontal btn-audio' id='btn-"+stdMVSlug+"'><a href='#"+stdMVSlug+"' onclick='hitstdmv(\""+myObj.mv[i].industria+"\",\""+codigoEmbed+"\",\""+myObj.mv[i].slugCat+"\",\""+stdMVSlug+"\"); playStdMVAudio();'><svg class='std-icon-animated' viewBox='0 0 26 26' xmlns='http://www.w3.org/2000/svg' width='46' height='46' ><title>Clique para ouvir a descrição</title><g transform='translate(0 -1028.362)'><path fill='#fff' style='line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-transform:none;block-progression:tb' d='M 8,0 C 6.3466486,0 5,1.3467 5,3 l 0,5 c 0,1.6534 1.3466486,3 3,3 1.6533514,0 3,-1.3466 3,-3 L 11,3 C 11,1.3467 9.6533514,0 8,0 Z M 3,8.1523438 c 0,2.5124892 1.9849527,4.5377522 4.5,4.7832032 l 0,2.048828 0,0.01563 -2,0 0,1 5,0 0,-1 -2,0 0,-0.01563 0,-2.048828 C 11.015048,12.690096 13,10.664833 13,8.1523438 l -1,0 c 0,2.1220002 -1.765404,3.8320312 -4,3.8320312 -2.2345965,0 -4,-1.710031 -4,-3.8320312 z' transform='translate(3.5 1031.362)'/></g></svg></a></div>";
+										document.getElementById("std-mv-bts-container").innerHTML+=MVBtAudio;
+									}
+
+									//Adiciona os conteúdos das DIVs
+									document.getElementById("productStdIDMV").innerHTML += myObj.mv[i].div;
+
+									//Imprime o conteúdo das MINI Vitrines
+									writeStandoutMV(myObj.mv[i].tipo);
+
+									//Remove botões e DIVs duplicadas se houver
+									var divMVProductRemove = document.querySelectorAll('#productStdID');
+									if (divMVProductRemove.length > 1) { divMVProductRemove[1].remove(); }
+
+									var btnMVRemove = document.querySelectorAll('#btn-' + stdMVSlug);
+									if (btnMVRemove.length > 1) { btnMVRemove[1].remove(); }
+
+									var divMVRemove = document.querySelectorAll('#' + stdMVSlug);
+									if (divMVRemove.length > 1) { divMVRemove[1].remove(); }
+
+									var containerMVRemove = document.querySelectorAll('#std-mv-bts-container');
+									if (containerMVRemove.length > 1) { containerMVRemove[1].remove(); }
+
+									console.log(stdMVSlug);
+								}
+							}, '1000');
+						});
+					}
+				}
+
+				document.getElementById("standoutDivAutomatico").innerHTML = myObj.div;
+				writeStandoutCBP();
+			}
+		};
+		xmlhttp.open("GET", urlCatch, true);
+		xmlhttp.send();
+
+	}, 1000);
+
+	function writeStandoutMV(tipo) {
+		var elem = document.getElementById("standoutDivMV-" + tipo);
+		var w = parseInt(window.innerWidth);
+		var h = parseInt(elem.getAttribute("h"));
+		var hmv = parseInt(h - 80);
+		//console.log('w/h/hmv:', w, h, hmv);
+
+		if ((w <= 768) && (w > 425)) { w = "768"; }
+		else if ((w <= 425) && (w > 375)) { w = "360"; h = hmv; }
+		else if ((w <= 375) && (w > 320)) { w = "320"; h = hmv; }
+		else if (w <= 320) { w = "280"; h = hmv; }
+		else { w = "768"; }
+
+		var p = ((elem.getAttribute("p") === null) ? codigoEmbed : elem.getAttribute("p")) + '/' + elem.getAttribute("x") + '/' + elem.getAttribute("y");
+		var c = elem.getAttribute("i");
+		elem.style.height = h + 'px';
+		elem.innerHTML = '<iframe referrerpolicy="no-referrer-when-downgrade" width="'+w+'" height="'+parseInt(h)+'" src="//www.standout.com.br/'+c+'/p/'+p+'" frameborder="0" scrolling="no" id="frameStandoutMV'+tipo+'" allow="autoplay" allowfullscreen></iframe>';
+	}
+
+	function writeStandout(d) { document.getElementsById("standoutDiv").getAttribute("h") = d.productHeight; writeStandoutCBP(); }
+	function writeStandoutCBP() {
+		if (document.getElementById("standoutDiv") != null) {
+			if (document.getElementById("standoutDiv").getAttribute("h") != null || document.getElementById("standoutDiv").getAttribute("h") != "undefined") {
+				var elem = document.getElementById("standoutDiv");
+				var w = '100%';
+				var h = parseInt(elem.getAttribute("h")); var hm = parseInt(elem.getAttribute("hm"));
+				var p = ((elem.getAttribute("p") === null) ? codigoEmbed : elem.getAttribute("p")) + '/' + elem.getAttribute("x") + '/' + elem.getAttribute("y");
+				var c = elem.getAttribute("i");
+				elem.innerHTML = '<iframe referrerpolicy="no-referrer-when-downgrade" width="' + w + '" height="' + parseInt(h) + '" src="//www.standout.com.br/' + c + '/p/' + p + '" frameborder="0" id="frameStandout" allowfullscreen></iframe>';
+			}
+		}
+	}
+}
+
+//MENSAGERIA
+if (document.getElementById('frameStandout') != null || document.getElementById('frameStandout') != 'undefined') {
+
+	standoutMensageria();
+
+	function standoutMensageria() {
+		var myMensageriaVitrine = document.getElementById('frameStandout');
+		var myMensageriaOrigin = '*';
+		//var myMensageriaHeight = document.getElementById("frameStandout").height;
+		console.log("MSG 2.0 - JS");
+
+		// Listen for messages
+		if (window.addEventListener) {
+			window.addEventListener('message', onMessageReceived, false);
+		}
+		else {
+			window.attachEvent('onmessage', onMessageReceived, false);
+		}
+
+		// Handle messages received from origin only
+		function onMessageReceived(event) {
+			//console.log("origin: "+event.origin);
+			if ((event.origin == "https://www.drsystems.com.br") || (event.origin == "https://www.standout.com.br")) {
+				//Se origem for as esperadas, continue...
+				//console.log("Origem Valida");
+				//console.log("origin: "+event.origin);
+			}
+			else {
+				//Se origem NAO for as esperadas, PARE...
+				//console.log("Origem Invalida");
+				return false;
+			}
+
+			if (myMensageriaOrigin === '*') {
+				myMensageriaOrigin = event.origin;
+			}
+
+			if (event.data.stdToken) {
+				// console.log('eventJS', event);
+				// console.log("originJS: "+event.origin);
+
+				if (event.data.stdToken == codigoEmbed) {
+					var myMensageriaVitrine = document.getElementById('frameStandout');
+
+					if (event.data.method == "getMensageriaAccordion") {
+						// console.log("JS getMensageriaAccordion: "+event.data.value);
+						// console.log(event.data.value);
+						console.log("JS getMensageriaAccordionALTURA: " + event.data.value.alturaInicial);
+						console.log("JS getMensageriaAccordionPOSICAO: " + event.data.value.posicaoAtual);
+
+						if (parseInt(window.innerWidth) <= 420) {
+							//console.log('mobile');
+							myMensageriaVitrine.setAttribute('height', parseInt(event.data.value.alturaInicial + 80));
+							myMensageriaVitrine.setAttribute('style', 'height:' + parseInt(event.data.value.alturaInicial + 80) + 'px;');
+
+							window.scrollTo({
+								'behavior': 'smooth',
+								'left': 0,
+								'top': event.data.value.posicaoAtual + 56
+							});
+
+						} else {
+							//console.log('desktop');
+							myMensageriaVitrine.setAttribute('height', event.data.value.alturaInicial);
+							myMensageriaVitrine.setAttribute('style', 'height:' + event.data.value.alturaInicial + 'px;');
+
+							window.scrollTo({
+								'behavior': 'smooth',
+								'left': 0,
+								'top': event.data.value.posicaoAtual + 50
+							});
+						}
+
+					}
+
+					if (event.data.method == "getMensageriaFirstHeight") {
+						console.log("JS getMensageriaFirstHeight: " + event.data.value);
+						myMensageriaVitrine.setAttribute('height', event.data.value);
+						myMensageriaVitrine.setAttribute('style', 'height:' + event.data.value + 'px;');
+					}
+
+					if (event.data.method == "getMensageriaHeight") {
+						//console.log("getHeight: "+event.data.value);
+						myMensageriaVitrine.setAttribute('height', event.data.value);
+						myMensageriaVitrine.setAttribute('style', 'height:' + event.data.value + 'px;');
+					}
+
+					if (event.data.method == "getMensageriaMobileHeight") {
+						//console.log("getMobileHeight: "+event.data.value);
+						myMensageriaVitrine.setAttribute('height', parseInt(event.data.value + 20));
+						myMensageriaVitrine.setAttribute('style', 'height:' + parseInt(event.data.value + 20) + 'px;');
+
+						//faz smooth scroll (top)
+						var style = document.createElement('style');
+						style.innerHTML = 'html { scroll-behavior: smooth; }';
+
+						var ref = document.querySelector('script');
+						ref.parentNode.insertBefore(style, ref);
+
+						// window.scrollTo({
+						//  'behavior': 'smooth',
+						//   'left': 0,
+						//  'top': myMensageriaVitrine.offsetTop - 150
+						// });
+						document.getElementById("standoutDivAutomatico").scrollIntoView({ block: "start", behavior: "smooth" });;
+					}
+				}
+			}
+		}
+	}
+}
+
+

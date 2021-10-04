@@ -1,0 +1,247 @@
+var droz_ibm_watson_url = undefined;
+var droz_ibm_watson_token = undefined;
+var droz_ibm_watson_auth = undefined;
+var droz_ibm_watson_redirect_url = undefined;
+var droz_ibm_watson_assistant_url = undefined;
+
+// funcao resposavel por adicionar script no head
+function drozAddScriptInHead(url, version, callback) {
+  var script = document.createElement('script');
+  
+  script.src = url + '?v=' + version;
+  script.type = 'text/javascript';
+  if (callback) {
+    script.onload = callback;
+  }
+  // alteração para charset em dev
+  // script.charset = "iso-8859-1";
+  if (typeof $ !== "undefined" && url.includes("/main.js") && $('script[src$="' + script.src + '"]').length){
+    $('script[src$="' + script.src + '"]').remove();
+  }
+  document.getElementsByTagName("head")[0].appendChild(script);
+}
+
+function drozAddDivInBody(id) {
+  var div = document.createElement('div');
+  div.id = id;
+  document.body.appendChild(div);
+}
+
+// funcao responsavel por instalar o Droz.
+// Tiemout para evitar problemas ao carregar jQuery.
+function drozInstallScript(url, version, prechatCustomerKey) {
+  setTimeout(function () {
+    drozAddDivInBody('droz-div');
+    drozAddScriptInHead(url + 'iframe/main.js', version);
+  }, 500);
+}
+
+function drozRemoveScript(callback) {
+  data = {};
+  data.type = "cleanCookie";
+  if (!document.getElementById('droz-iframe').getAttribute("src")) {
+    $("#drz_btn_open").length ? $("#drz_btn_open").click() : $("#drz_btn_open_updated").click();
+    document.getElementById('droz-iframe').onload = function() {
+      $("#droz-div").hide()
+      document.getElementById('droz-iframe').contentWindow.postMessage(data, '*');
+      setTimeout(function() {
+        $("#droz-div").remove();
+        callback ? callback() : null;
+      }, 2000);
+    }
+  } else {
+    document.getElementById('droz-iframe').contentWindow.postMessage(data, '*');
+    setTimeout(function() {
+      $("#droz-div").remove();
+      callback ? callback() : null;
+    }, 200);
+  }
+}
+
+// funcao responsavel por adicionar jQuery caso nao exista na pagina
+function drozAddJqueryIfNecessary(v) {
+  if(typeof $ != 'undefined' || typeof jQuery != 'undefined') {
+    return;
+  }
+
+  drozAddScriptInHead('https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js', v)
+}
+
+// funcao responsavel por pegar o script atraves do nome
+function drozGetScriptParams(scriptName) {
+  var scripts = document.getElementsByTagName("script");
+  for(var i=0; i<scripts.length; i++) {
+    if(scripts[i].src.indexOf("/" + scriptName) > -1) {
+      var pa = scripts[i].src.split("?").pop().split("&");
+      var p = {};
+      for(var j=0; j<pa.length; j++) {
+        var kv = pa[j].split("=");
+        p[kv[0]] = kv[1];
+      }
+      return p;
+    }
+  }
+  return {};
+}
+
+// funcao responsavel por retornar pasta do ambiente
+function drozGetEnviromentFolder(url) {
+  if (url.indexOf('hm-chat-app') > -1) {
+    return 'chatbot-droz-homolog';
+  }
+
+  if (url.indexOf('chat-app') > -1 || url.indexOf('pre-chat-app') > -1) {
+    return 'chatbot-droz-prod';
+  }
+
+  if (url.indexOf('localhost') > -1) {
+    return 'chatbot-droz-dev';
+  }
+
+  return undefined;
+}
+
+
+// funcao responsavel por pegar o script atraves do nome
+function drozGetScriptParams(scriptName) {
+  var scripts = document.getElementsByTagName("script");
+  for(var i=0; i<scripts.length; i++) {
+    if(scripts[i].src.indexOf("/" + scriptName) > -1) {
+      var pa = scripts[i].src.split("?").pop().split("&");
+      var p = {};
+      for(var j=0; j<pa.length; j++) {
+        var kv = pa[j].split("=");
+        p[kv[0]] = kv[1];
+      }
+      return p;
+    }
+  }
+  return {};
+}
+
+var drozScriptParams = drozGetScriptParams('droz');
+var prechat_base_url = drozScriptParams.u + '/';
+
+// funcao responsavel por adicionar modal na pagina do cliente
+function drozAddModalZoomImage(imageUrl, title) {
+  if (!document.getElementById("droz_modal")) {
+    drozAddCssInHead(prechat_base_url + 'v1/droz-modal.css', drozScriptParams.v);
+
+    var drozDivModal = document.createElement('div');
+    drozDivModal.setAttribute('id', 'droz_modal');
+
+    drozModalHtml = '<span class="droz_modal_close">&times;</span>';
+    drozModalHtml += '<img class="droz_modal_content" id="droz_modal_image">';
+    drozModalHtml += '<div id="droz_modal_caption"></div>';
+    drozDivModal.innerHTML = drozModalHtml
+
+
+    //document.body.appendChild(div);
+    document.getElementById('droz-div').appendChild(drozDivModal);
+    document.getElementById('droz-div').style.zIndex = "99";
+
+    // funcao para fechar o modal
+    var drozModalClose = document.getElementsByClassName("droz_modal_close")[0];
+    drozModalClose.onclick = function() {
+      document.getElementById('droz_modal').style.display = "none";
+      document.getElementById("droz_modal").remove();
+    }
+
+  }
+
+  var drozModal = document.getElementById('droz_modal');
+  var drozModalImage = document.getElementById("droz_modal_image");
+  var drozModalCaption = document.getElementById("droz_modal_caption");
+
+  drozModal.style.display = "block";
+  drozModalImage.src = imageUrl;
+  drozModalCaption.innerHTML = title || '';
+}
+
+
+// funcao responsavel por adicionar modal para abrir link externo na pagina do cliente
+function drozAddModalExternalLink(url) {
+
+   if (!document.getElementById("droz_modal")) {
+    drozAddCssInHead(prechat_base_url + 'v1/droz-modal.css', drozScriptParams.v);
+
+    var drozDivModal = document.createElement('div');
+    drozDivModal.setAttribute('id', 'droz_modal');
+
+    drozModalHtml = '<span class="droz_modal_close">&times;</span>';
+    drozModalHtml += '<div class="droz_modal_content droz_modal_browser" id="droz_modal_browser">';
+    drozModalHtml += '<div id="droz_modal_loader" class="placeholder-load"></div>';
+    drozModalHtml += '<div id="droz_modal_load_fail" style="display:none;">Ocorreu um erro ao carregar. Clique no botão à direita para abrir.</div>';
+    drozModalHtml += '<div id="droz_modal_open_new_tab"><a href="'+url+'" target="_blank" title="Abrir em nova aba" class="droz_modal_btn_new_tab"><svg style="margin-top:2px;" width="25" height="19" xmlns="http://www.w3.org/2000/svg"><g><rect fill="none" height="21" width="27" y="-1" x="-1"/></g><g><rect stroke="#ffffff" stroke-width="2px" stroke-linejoin="round" fill="none" id="svg_1" y="1.200334" x="9.801334" width="11.849766" height="10.647765" class="cls-1"/><polyline stroke="#ffffff" stroke-width="2px" stroke-linejoin="round" fill="none" id="svg_2" points="8.57504916191101,4.792995274066925 3.804669141769409,4.792995274066925 3.804669141769409,17.64442950487137 16.92321467399597,17.64442950487137 16.92321467399597,12.971180260181427 " class="cls-1"/></g></svg></a></div>';
+    drozModalHtml += '<iframe id="droz_modal_iframe" src="'+url+'"><p>Erro</p></iframe>';
+    drozModalHtml += '</div>';
+    drozDivModal.innerHTML = drozModalHtml;
+
+
+    //document.body.appendChild(div);
+    document.getElementById('droz-div').appendChild(drozDivModal);
+    document.getElementById('droz-div').style.zIndex = "99";
+
+    // funcao para fechar o modal
+    var drozModalClose = document.getElementsByClassName("droz_modal_close")[0];
+    drozModalClose.onclick = function() {
+      document.getElementById('droz_modal').style.display = "none";
+      document.getElementById("droz_modal").remove();
+    }
+  }
+
+  var drozModal = document.getElementById('droz_modal');
+  var drozModalLoader = document.getElementById("droz_modal_loader");
+  var drozModalFailMessage = document.getElementById("droz_modal_load_fail");
+  var drozModalOpenNewTab = document.getElementById("droz_modal_open_new_tab");
+
+  drozModal.style.display = "block";
+  setTimeout(function(){
+    drozModalLoader.style.display = "none";
+    drozModalFailMessage.style.display = "block";
+    drozModalOpenNewTab.style.display = "block";
+  }, 10000);
+}
+
+function setVariableForToken(url, version) {
+
+  var script = document.createElement('script');
+  script.src = url + '?v=' + version;
+  script.type = 'text/javascript';
+  
+  document.getElementsByTagName("head")[0].appendChild(script);
+
+  script.onload = function() {
+    droz_token_imported = droz_token;
+    drozAddScriptInHead('https://s3-sa-east-1.amazonaws.com/chatbot-droz/' + drozEnviromentFolder + '/attachment/' + drozScriptParams.i + '/main-v1.js', drozScriptParams.v, function() {
+      installMainScript()
+    });
+  }
+
+}
+
+var drozScriptParams = drozGetScriptParams('droz');
+
+
+
+drozAddJqueryIfNecessary(drozScriptParams.v);
+
+var drozEnviromentFolder = drozGetEnviromentFolder(drozScriptParams.u);
+
+// adiciona script do cliente
+if (drozEnviromentFolder !== undefined) {
+  if (drozScriptParams.e)
+    setVariableForToken('https://s3-sa-east-1.amazonaws.com/chatbot-droz/' + drozEnviromentFolder + '/attachment/' + drozScriptParams.e + '/main-v1.js', drozScriptParams.v);
+  else
+    drozAddScriptInHead('https://s3-sa-east-1.amazonaws.com/chatbot-droz/' + drozEnviromentFolder + '/attachment/' + drozScriptParams.i + '/main-v1.js', drozScriptParams.v, function() {
+      installMainScript()
+    });
+}
+
+var prechat_base_url = drozScriptParams.u + '/';
+var prechat_customer_key = drozScriptParams.i;
+
+function installMainScript() {
+  // Precisamos dessa por causa do padrao main.js (antigo)
+  drozInstallScript(prechat_base_url, drozScriptParams.v, prechat_customer_key);
+}
