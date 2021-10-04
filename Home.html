@@ -5,109 +5,191 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfumaria</title>
+    <link rel="stylesheet" href="Index.css">
+    <link rel="shortcut icon" href="imagens/Logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <title>Parfumerie Chicos</title>
 </head>
 
 <body>
-    <!--cabeçalho do site-->
-    <header>
-        <p>
-            <h1><img src="imagens/Logo.png" alt="LogoPerfumaria" title=LogoPerfumaria href="Home.html"> Perfumaria</h1>
-        </p>
+    <!-- Cabeçalho padrão do site -->
+    <header class="header">
+        <div>
+            <div id="logo"><img src="imagens/Logo.png" alt="LogoPerfumaria" id="logo">
+            </div>
+        </div>
+        <div>
+            <h1>parfumerie chicos</h1>
+        </div>
         <nav>
-            <!--barra de pesquisa-->
-            <form>
-                <input type="searh" name="pesquisa" id="pesq" placeholder="Navegue em nosso site">
-                <button><img src="imagens/pesq.png" alt="botao de pesquisa"></a></button>
-            </form>
-
-            <!--Barra de navegação-->
+            <div class="searchArea">
+                <img class="searchIcon" src="imagens/searchicon.svg" alt="botao de pesquisa">
+                <input type="search" name="search" placeholder="Navegue em nosso site" class="searchBox">
+            </div>
+            <!-- Barra de navegação -->
+            <div>
                 <ul>
-                    <li id=1><a href="#">Perfumes</a></li>
-                    <li><a href="#">Colônias</a></li>
+                    <li><a href="#">Perfumes</a></li>
                     <li><a href="#">Para o lar</a></li>
                     <li><a href="Sobre.html" target="_blank">Sobre</a> </li>
                     <li><a href="Cadastro.html" target="_blank">Sua conta</a></li>
-                    <li><a href=""><img src="imagens/sacola.png" alt="sacola de compras">Sacola</a></li>
+                    <li><a href=""><img src="imagens/sacola.png" alt="sacola de compras"></a></li>
                 </ul>
+            </div>
         </nav>
     </header>
+    <!-- Conteúdo principal da página home-->
+    <main class="main">
+        <div class="banner">
+            <ul type="circle">
+                <li><img src="imagens/BannerDC.jpg" alt="banner inicial"></li>
+            </ul>
+        </div>
+        <div>
+            <p>lançamentos</p>
+        </div>
+        <!-- Area de produtos -->
+        <div class="productsArea">
+            <div class="productArea">
+                <div id="product1"><img src="imagens/perfume1.png" alt="Perfume Terre de Lumiere">
+                    <div>Sabonete Líquido para Corpo Flor de Cerejeira
+                        <div>R$150,00</div>
+                    </div>
+                    <div class="buttonArea"><a href="#" class="button">Adicionar ao carrinho</a></div>
+                </div>
+            </div>
+            <div class="productArea">
+                <div id="product2"><img src="imagens/perfume2.png" alt="Perfume Terre de Lumiere">
+                    <div>Daisy Marc Jacobs Eau de Toilette
+                        <div>R$405,00</div>
+                    </div>
+                    <div class="buttonArea"><a href="#" class="button">Adicionar ao carrinho</a></div>
+                </div>
+            </div>
+            <div class="productArea">
+                <div id="product3"><img src="imagens/sabonete liquido.webp" alt="Perfume Terre de Lumiere">
+                    <div>Sabonete Líquido para Corpo Flor de Cerejeira
+                        <div>R$150,00</div>
+                    </div>
+                    <div class="buttonArea"><a href="#" class="button">Adicionar ao carrinho</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="productsArea">
+            <div class="productArea">
+                <div id="product6"><img src="imagens/perfume8.jpg" alt="lanuittresorleau">
+                    <div>la nuit tresor leau de parfum
+                        <div>R$250,00</div>
+                    </div>
+                    <div class="buttonArea"><a href="#" class="button">Adicionar ao carrinho</a></div>
+                </div>
+            </div>
+            <div class="productArea">
+                <div id="product7"><img src="imagens/perfume6.jpg" alt="Perfume Lancome">
+                    <div>perfume lancôme la vie est belle feminino eau de parfum - 30ml
+                        <div>R$265,90
 
-    <!--primeira seção da página, banner-->
-    <section>
-        <ul type="circle">
-            <li><img src="imagens/banner home.png" alt="banner inicial"></li>
-        </ul>
-    </section>
-    <!--seção dos produtos-->
-    <section>
-        <h2>LANÇAMENTOS</h2>
-        <figure>
-            <button><img src="imagens/perfume1.png" alt="Perfume Terre de Lumiere"><br>Eau de Parfum Terre de
-                Lumière<br>R$549,00</button>
-            <figcaption></figcaption>
-        </figure>
-        <figure>
-            <button><img src="imagens/sabonete liquido.webp" alt="Sabonete liquido "><br>Sabonete Líquido para Corpo
-                Flor de Cerejeira<br>R$150,00</button>
-        </figure>
-        <figure>
-            <button><img src="imagens/perfume2.png" alt="Sabonete liquido "><br>Daisy Marc Jacobs Eau de Toilette
-                <br>R$405,00</button>
-        </figure>
-        <figure>
-            <button><img src="imagens/difusorBambu.jpg" alt="Difusor Bambu"><br>Difusor Aroma Sticks Bambu 250Ml, Etna,
-                Incolor<br>R$ 39,99</button>
-        </figure>
-    </section>
+                        </div>
+                    </div>
+                    <div class="buttonArea"><a href="#" class="button">Adicionar ao carrinho</a></div>
+                </div>
+            </div>
+            <div class="productArea">
+                <div id="product8"><img src="imagens/perfume7.jpg" alt="Perfume Jean Gaultier">
+                    <div>Perfume Jean Gaultier
+                        <div>R$287,20</div>
+                    </div>
+                    <div class="buttonArea"><a href="#" class="button">Adicionar ao carrinho</a></div>
+                </div>
+            </div>
+        </div>
 
-    <!--Barra lateral com opçoes com links integrados e melhor navegação pelo site-->
-    <aside>
-        <nav>
-            <dl>
-                <dt>Perfumes</dt>
-                <dd><a href="#">Importados</a></dd>
-                <dd><a href="#">Nacionais</a></dd>
-            </dl>
-            <dl>
-                <dt>Aramatizantes</dt>
-                <dd><a href="#">Insensos</a></dd>
-                <dd><a href="#">Casa</a></dd>
-                <dd><a href="#">Banheiro</a></dd>
-                <dd><a href="#">Trabalho</a></dd>
-            </dl>
-        </nav>
-    </aside>
+        <!-- Segunda sessão da página home -->
+        <div class="banner">
+            <ul type="circle">
+                <li><img src="imagens/Presente grátis.png" alt="banner inicial"></li>
+            </ul>
+        </div>
+        <div class="divMain">
+            <div class="productsArea">
+                <div class="productArea">
+                    <div id="product4"><img src="imagens/difusorBambu.jpg" alt="Difusor Bambu">
+                        <div>Aroma Sticks Bambu 250Ml, Etna,Incolor
+                            <div>R$ 39,99</div>
+                        </div>
+                        <div class="buttonArea"><a href="#" class="button">Adicionar ao carrinho</a></div>
+                    </div>
+                </div>
+                <div class="productArea">
+                    <div id="product5"><img src="imagens/difusorLaranjeira.jpg" alt="DifusorLaranjeira">
+                        <div>Flor de Laranjeira - Difusor de Perfume - 200ml
+                            <div>R$ 149,00</div>
+                        </div>
+                        <div class="buttonArea"><a href="#" class="button">Adicionar ao carrinho</a></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Aside na segunda sessão do site -->
+            <div class="navAside">
+                <ul>
+                    <h4>Perfumes</h4>
+                    <ul>
+                        <li><a href="#">Importados</a></li>
+                        <li><a href="#">Nacionais</a></li>
+                    </ul>
 
-    <hr>
-    <!--Rodapé padrão-->
+                    <h4>Aromatizantes</h4>
+                    <ul>
+                        <li><a href="#">Casa</a></li>
+                        <li><a href="#">Banheiro</a></li>
+                        <li><a href="#">Corpo</a></li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <!-- Divisor main e footer -->
+    <div class="hrLine">
+        <hr>
+    </div>
     <footer>
-        <p>Formas de pagamento
-        <ul>
-            <li><a href="#"><img src="imagens/barcode.png" alt="Boleto" title=Boleto></a></li>
-            <li><a href="#"><img src="imagens/visa.png" alt="Cartão Bandeira Visa" title=Visa></a></li>
-            <li><a href="#"><img src="imagens/mastercard.png" alt="Cartão Bandeira Mstercard" title=Mastercard></a></li>
-            <li><a href="#"><img src="imagens/dinners.png" alt="Cartão Bandeira Dinners" title=Diners></a></li>
-            <li><a href="#"><img src="imagens/elo.png" alt="Cartão Bandeira Elo" title=Elo></a></li>
-        </ul>
-        </p>
-        <p>Atendimento por telefone <br>
-            (12) 3069 5462 <br>
-            0900 895 8421
-        </p>
-        <p>Nos encontre nas mídias sociais
-        <ul>
-            <li><a href="#"><img src="imagens/iconFB.png" alt="Icon Facebook"></a></li>
-            <li><a href="#"><img src="imagens/iconTT.png" alt="Icon Twitter"></a></li>
-            <li><a href="#"><img src="imagens/iconIG.png" alt="Icon Instagram"></a></li>
-        </ul>
-        </p>
-        <p>
-            Perfumaria Mademoiselle S/A - CNPJ: 34.960.679/0001-82 <br>
-            Endereço: Rua Rio Grande do Sul, 0256 - Bairro Rio Comprido, Jacareí/SP CEP 12302-022 <br>
-            &copy Perfurmaria Mademoiselle
-        </p>
-    </footer>
+        <div class="pay">
+            <h4>Formas de pagamento</h4>
+            <ul>
+                <li><a href="#"><img src="imagens/barcode.png" alt="Boleto" title=Boleto></a></li>
+                <li><a href="#"><img src="imagens/visa.png" alt="Cartão Bandeira Visa" title=Visa></a></li>
+                <li><a href="#"><img src="imagens/mastercard.png" alt="Cartão Bandeira Mstercard" title=Mastercard></a>
+                </li>
+                <li><a href="#"><img src="imagens/dinners.png" alt="Cartão Bandeira Dinners" title=Diners></a>
+                </li>
+                <li><a href="#"><img src="imagens/elo.png" alt="Cartão Bandeira Elo" title=Elo></a></li>
 
+            </ul>
+        </div>
+
+        <div class="container">
+            <div class="tel">
+                <p>Atendimento por telefone</p>
+                <p>(12) 3069 5462 / 0900 895 8421</p>
+
+            </div>
+            <div class="sociais">
+                <p>Nos acompanhe nas redes sociais</p>
+                <ul>
+                    <li><a href="#"><img src="imagens/iconFB.png" alt="Icon Facebook"></a></li>
+                    <li><a href="#"><img src="imagens/iconTT.png" alt="Icon Twitter"></a></li>
+                    <li><a href="#"><img src="imagens/iconIG.png" alt="Icon Instagram"></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="address">
+            <address>
+                PARFUMERIE CHICOS S/A - CNPJ: 34.960.679/0001-82</p>
+                Endereço: Rua Rio Grande do Sul, 0256 - Bairro Rio Comprido, Jacareí/SP CEP 12302-022
+                &copy PARFUMERIE CHICOS
+            </address>
+        </div>
+    </footer>
 </body>
+
 </html>

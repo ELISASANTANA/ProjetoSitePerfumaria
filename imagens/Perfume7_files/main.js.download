@@ -1,0 +1,1521 @@
+//functions
+
+function hideZopim() {
+  var style = document.createElement('style');
+  style.type = 'text/css';
+  style.innerHTML = '';
+  style.innerHTML += '.zopim {display: none}';
+  style.innerHTML += '#launcher {display: none}';
+  document.getElementsByTagName("head")[0].appendChild(style);
+}
+
+function drozAddCssInHead(url, v, onload) {
+  var link = document.createElement('link');
+  if (typeof onload === 'undefined') onload = false;
+  link.type = 'text/css';
+  link.rel = 'stylesheet';
+  link.href = url + '?v=' + v;
+  if (onload) {
+    link.onload = onload;
+  }
+  document.getElementsByTagName("head")[0].appendChild(link);
+}
+
+function buildDrozInputsParameters() {
+  var droz_inputs_parameters = '';
+  if (typeof prechat_inputs !== 'undefined') {
+    var prechat_input_key;
+    for (prechat_input_key in prechat_inputs) {
+      droz_inputs_parameters += '&inputs[' + prechat_input_key + ']=' + prechat_inputs[prechat_input_key];
+      if(prechat_input_key == "language"){
+        droz_inputs_parameters += '&drozLanguage=' + prechat_inputs[prechat_input_key];
+      }
+    }
+  }
+  return droz_inputs_parameters;
+}
+
+function buildDrozFullscreenParameters() {
+  if (typeof custom_params !== 'undefined') {
+    return custom_params;
+  }else{
+    return false;
+  }
+}
+
+function drozBuildUrlIframe(prechat_base_url, droz_token, customer_key, open_delay, typing_delay, drozScriptParams, drozEnviromentFolder, watsontype,
+                            watsonuser, watsonRedirectUrl, watsonAssistantUrl, drozskin, start_fullscreen,
+                            layout_updated, droz_position_desktop, droz_position_mobile, header_btn_close, header_btn_maximize, header_btn_minimize,
+                            has_dialogbox_desktop, has_dialogbox_mobile, dialogbox_text_desktop, dialogbox_text_mobile, has_chat_boticon, has_chat_usericon,
+                            icon_minimized, icon_minimized_mobile, is_hoverable_mobile, icon_minimized_hover, icon_minimized_hover_mobile, minimized_img_only,
+                            minimized_img_only_mobile, header_btns_inverted_color, has_footer, has_online_description, expand_screensize, defaultBotLanguageParams,
+                            botLanguagesParams, allows_extra_attachments, origin_domain) {
+  var prechat_url = prechat_base_url + '#/prechat';
+  prechat_url += '?header=false';
+
+  var customParamsFullscreen = buildDrozFullscreenParameters();
+
+  // parametros customizados do controller fullscreen
+  if(customParamsFullscreen){
+    open_delay = customParamsFullscreen['open_delay'];
+    start_fullscreen = customParamsFullscreen['start_fullscreen'];
+  }
+
+  if (typeof droz_token_imported !== 'undefined')
+    prechat_url += '&token=' + droz_token_imported;
+  else
+  prechat_url += '&token=' + droz_token;
+  prechat_url += '&customerKey=' + customer_key;
+  prechat_url += '&openDelay=' + open_delay;
+  prechat_url += '&typingDelay=' + typing_delay;
+  prechat_url += '&watsontype=' + watsontype;
+  prechat_url += '&watsonuser=' + watsonuser;
+  prechat_url += '&watsonRedirectUrl=' + watsonRedirectUrl;
+  prechat_url += '&watsonAssistantUrl=' + watsonAssistantUrl;
+  prechat_url += '&drozskin=' + drozskin;
+  prechat_url += '&startFullscreen=' + start_fullscreen;
+  prechat_url += '&layoutUpdated=' + layout_updated;
+  if (layout_updated) {
+    prechat_url += '&drozPositionDesktop=' + droz_position_desktop;
+    prechat_url += '&drozPositionMobile=' + droz_position_mobile;
+    prechat_url += '&headerBtnClose=' + header_btn_close;
+    prechat_url += '&headerBtnMaximize=' + header_btn_maximize;
+    prechat_url += '&headerBtnMinimize=' + header_btn_minimize;
+    prechat_url += '&hasDialogboxDesktop=' + has_dialogbox_desktop;
+    prechat_url += '&hasDialogboxMobile=' + has_dialogbox_mobile;
+    prechat_url += '&dialogboxTextDesktop=' + dialogbox_text_desktop;
+    prechat_url += '&dialogboxTextMobile=' + dialogbox_text_mobile;
+    prechat_url += '&hasChatBoticon=' + has_chat_boticon;
+    prechat_url += '&hasChatUsericon=' + has_chat_usericon;
+    prechat_url += '&iconMinimized=' + icon_minimized;
+    prechat_url += '&iconMinimizedMobile=' + icon_minimized_mobile;
+    prechat_url += '&isHoverableMobile=' + is_hoverable_mobile;
+    prechat_url += '&iconMinimizedHover=' + icon_minimized_hover;
+    prechat_url += '&iconMinimizedHoverMobile=' + icon_minimized_hover_mobile;
+    prechat_url += '&minimizedImgOnly=' + minimized_img_only;
+    prechat_url += '&minimizedImgOnlyMobile=' + minimized_img_only_mobile;
+    prechat_url += '&headerBtnsInvertedColor=' + header_btns_inverted_color;
+    prechat_url += '&hasFooter=' + has_footer;
+    prechat_url += '&hasOnlineDescription=' + has_online_description;
+    prechat_url += '&expandScreensize=' + expand_screensize;
+    prechat_url += '&allowsExtraAttachments=' + allows_extra_attachments;
+  }
+  prechat_url += buildDrozInputsParameters();
+  if (drozScriptParams) {
+    prechat_url += '&version=' + drozScriptParams.v;
+    prechat_url += '&enviroment=' + drozEnviromentFolder;
+  }
+
+  prechat_url += "&defaultBotLanguage=" + defaultBotLanguageParams;
+  if(botLanguagesParams){
+    prechat_url += "&botLanguages=" + botLanguagesParams;
+  }
+
+  prechat_url += '&originDomain=' + origin_domain;
+
+  // parametro quando vem do link fullscreen
+  if(customParamsFullscreen){
+    prechat_url += '&fullscreenOrigin=' + customParamsFullscreen['origin_fullscreen'];
+  }
+
+  return prechat_url;
+}
+
+function drozShowOpenButton(callback) {
+  var btn = $droz("#drz_btn_open, .drz_container");
+
+  function afterShow() {
+    if (callback) callback();
+  }
+
+  switch (animation_prop.buttonAnimationOpen) {
+    case 'fade':
+      btn.fadeIn(350, afterShow);
+      break;
+
+    case 'slideHorizontal':
+      btn.animate({
+        right: "0"
+      }, afterShow);
+      break;
+
+    case 'slideLeft':
+      btn.animate({
+        right: "0"
+      }, afterShow);
+      break;
+
+    case 'slideUp':
+      btn.animate({
+        top: "0"
+      }, afterShow);
+      break;
+
+    case 'slideDown':
+      btn.animate({
+        top: "0"
+      }, afterShow);
+      break;
+
+    case 'slideVertical':
+      btn.animate({
+        top: "0"
+      }, afterShow);
+      break;
+
+    case 'show':
+      btn.show();
+      afterShow();
+      break;
+
+    case 'hide':
+      btn.show();
+      afterShow();
+      break;
+
+
+    default:
+      afterShow();
+      break;
+  }
+}
+
+function drozHideOpenButton(callback) {
+  var btn = $droz("#drz_btn_open, .drz_container");
+
+  function afterHide() {
+    btn.hide();
+    next();
+  }
+
+  function next() {
+    if (callback) callback();
+  }
+
+  switch (animation_prop.buttonAnimationClose) {
+    case 'fade':
+      btn.fadeOut(350, afterHide);
+      break;
+
+    case 'slideHorizontal':
+      btn.animate({
+        right: "-120%"
+      }, afterHide);
+      break;
+
+    case 'slideRight':
+      btn.animate({
+        right: "-120%"
+      }, afterHide);
+      break;
+
+    case 'slideVertical':
+      btn.animate({
+        top: "120%"
+      }, afterHide);
+      break;
+
+    case 'hide':
+      btn.hide();
+      afterHide();
+      break;
+
+    case 'slideDown':
+      btn.animate({
+        top: "120%"
+      }, afterHide);
+      break;
+
+    default:
+      next();
+      break;
+  }
+}
+
+function drozShowWindow() {
+  var content = $droz("#drz_chat_overlay_main");
+
+  drozHideOpenButton(showAnimate);
+
+  function showAnimate() {
+    beforeShow();
+    switch (animation_prop.windowAnimationOpen) {
+      case 'fade':
+        content.fadeIn(350);
+        break;
+
+      case 'slideUp':
+        content.css("top", "120%");
+        content.show();
+        content.animate({
+          top: "0"
+        });
+        break;
+
+      case 'slideVertical':
+        content.css("top", "120%");
+        content.show();
+        content.animate({
+          top: "0"
+        });
+        break;
+
+      default:
+        content.show();
+    }
+  }
+
+  function beforeShow() {
+    var overlay = $droz('#drz_overlay_chat_external');
+    if (overlay.data('fullscreen'))
+      overlay.addClass('drz_fullscreen');
+  }
+}
+
+
+function drozCloseWindow(resetChat) {
+  var content = $droz("#drz_chat_overlay_main");
+  if ($(".drz_container").length) {
+    $(".drz_container").show();
+    $("#drz_overlay_chat_external").removeClass('window-open');
+  }
+  if ((watsontype == 2 || watsontype == 4) && !watsonRedirectUrl) {
+    //animacao ibm
+    content.show();
+    content.slideUp();
+
+    if (sessionStorage) {
+      if ((!sessionStorage["droz_session_id"]) && (!sessionStorage["ngStorage-droz_session_id"])) {
+        if (button_model == 'droz-brothers') {
+          drozBrothersResetStyle();
+        }
+        $droz("#droz-iframe").attr("src", "");
+      }
+    }
+  } else {
+    hideAnimate();
+  }
+
+  function hideAnimate() {
+    switch (animation_prop.windowAnimationClose) {
+      case 'fade':
+        content.fadeOut(350, afterHide);
+        break;
+
+      case 'slideUp':
+        content.animate({
+          top: "150%"
+        }, afterHide);
+        break;
+
+      case 'slideVertical':
+        content.animate({
+          top: "150%"
+        }, afterHide);
+        break;
+
+      default:
+        content.hide();
+        afterHide();
+    }
+  }
+
+  function afterHide() {
+    content.hide();
+    var overlay = $droz('#drz_overlay_chat_external');
+    overlay.data('fullscreen', resetChat ? false : overlay.hasClass('drz_fullscreen'));
+    overlay.removeClass('drz_fullscreen');
+    
+    drozShowOpenButton();
+
+    if (sessionStorage) {
+      if ((!sessionStorage["droz_session_id"]) && (!sessionStorage["ngStorage-droz_session_id"])) {
+        if (button_model == 'droz-brothers') {
+          drozBrothersResetStyle();
+        }
+        $droz("#droz-iframe").attr("src", "");
+      }
+    }
+  }
+}
+
+function drozMinimizeChat() {
+
+  drozCloseWindow();
+  if ($("#drz_btn_open, .drz_container").length) {
+    $("#drz_btn_open, .drz_container").show();
+    $("#drz_overlay_chat_external").removeClass('window-open');
+  }
+
+  drozBrothersTitleOpenOrClose();
+  // Caso tenha algum properties, principalmente quando for mobile
+  if (typeof(drz_button_properties) != "undefined" && drz_button_properties != null) {
+    $droz('#drz_btn_open, .drz_container').css("height", drz_button_properties['height']);
+    $droz('#drz_btn_open, .drz_container').css("width", drz_button_properties['width']);
+    drz_button_properties = null;
+  }
+}
+
+function drozOnClickCloseButton() {
+  if ($(".drz_container").length) {
+    $(".drz_container").show();
+    $("#drz_overlay_chat_external").removeClass('window-open');
+  }
+  if (sessionStorage) {
+    sessionStorage.removeItem("droz_session_id");
+    sessionStorage.removeItem("ngStorage-droz_session_id");
+  }
+
+  drozCloseWindow(true);
+  drozBrothersTitleOpenOrClose();
+  // Caso tenha algum properties, principalmente quando for mobile
+  if (typeof(drz_button_properties) != "undefined" && drz_button_properties != null) {
+    $droz('#drz_btn_open, .drz_container').css("height", drz_button_properties['height']);
+    $droz('#drz_btn_open, .drz_container').css("width", drz_button_properties['width']);
+    drz_button_properties = null;
+  }
+  $droz("#drz_btn_open, .drz_container").show();
+}
+
+function drozOnClickCloseButtonFullscreen() {
+  if ($(".drz_container").length) {
+    $(".drz_container").show();
+    $("#drz_overlay_chat_external").removeClass('window-open');
+  }
+  if (sessionStorage) {
+    sessionStorage.removeItem("droz_session_id");
+    sessionStorage.removeItem("ngStorage-droz_session_id");
+  }
+
+  drozCloseWindow(true);
+  drozBrothersTitleOpenOrClose();
+  // Caso tenha algum properties, principalmente quando for mobile
+  if (typeof(drz_button_properties) != "undefined" && drz_button_properties != null) {
+    $droz('#drz_btn_open, .drz_container').css("height", drz_button_properties['height']);
+    $droz('#drz_btn_open, .drz_container').css("width", drz_button_properties['width']);
+    drz_button_properties = null;
+  }
+  $droz("#drz_btn_open, .drz_container").show();
+}
+
+// Inicio - Funcionalidades do Droz Brothers (Multiplos Droz)
+function drozBrothersInit() {
+  if (button_model !== 'droz-brothers') {
+    return;
+  }
+
+  document.getElementById('drz_overlay_chat_external').className += ' droz-brothers';
+
+  var options = document.getElementsByClassName('droz-brothers-open');
+  for (var i = 0; i < options.length; i++) {
+    options[i].addEventListener('click', function () {
+      // verifica se esta clicando no icone já ativo
+      if ((' ' + this.className + ' ').replace(/[\n\t]/g, ' ').indexOf(' active ') > -1) {
+        document.getElementById('drz_btn_open, .drz_container').click();
+
+        return;
+      }
+
+      // caso estiver aberto ira fechar antes de abrir o novo
+      var elementChat = document.getElementById("drz_chat_overlay_main");
+      if (elementChat.offsetWidth > 0 && elementChat.offsetHeight > 0) {
+        document.getElementById('drz_btn_open, .drz_container').click();
+      }
+
+      // cria nova url pro chat e alterar o iframe
+      var urlClicked = drozBuildUrlIframe(prechat_base_url, this.getAttribute('data-token'), this.getAttribute('data-customer-key'), open_delay, typing_delay,
+                                          undefined, '', false, false, false, '',
+                                          layout_updated, droz_position_desktop, droz_position_mobile, header_btn_close, header_btn_maximize, header_btn_minimize,
+                                          has_dialogbox_desktop, has_dialogbox_mobile, dialogbox_text_desktop, dialogbox_text_mobile, has_chat_boticon, has_chat_usericon);
+      document.getElementById('droz-iframe').setAttribute('src', urlClicked);
+
+      // reseta todos estilos para o padrao
+      drozBrothersResetStyle();
+
+      // adiciona estilos necessarios
+      document.getElementById('droz-brothers-open-' + this.getAttribute('data-id')).className += ' active';
+      document.getElementById('drz_overlay_chat_external').className += ' ' + this.getAttribute('data-customer-key');
+      document.getElementById('drz_chat_overlay_main').className += ' ' + this.getAttribute('data-customer-key');
+
+      // reinicializa tamanho original
+      drozBrothersResetSizeOriginal();
+
+      // simula clique para abrir chat
+      document.getElementById('drz_btn_open, .drz_container').click();
+    });
+  }
+
+  // acoes para minimizar
+  document.getElementById('droz-brothers-btn-minimize').addEventListener('click', function () {
+    document.getElementById('droz-brothers-menu-normal').style.display = 'none';
+    document.getElementById('droz-brothers-title-text').style.display = 'none';
+    this.style.display = 'none';
+
+    document.getElementById('droz-brothers-menu-minimized').style.display = 'block';
+    document.getElementById('droz-brothers-btn-minimized').style.display = 'block';
+  });
+
+  // acoes para minimizar
+  document.getElementById('droz-brothers-btn-minimized').addEventListener('click', function () {
+    drozBrothersResetSizeOriginal();
+  });
+
+  // existe um timeout para garantir todo codigo acima seja executado antes
+  setTimeout(function () {
+    document.getElementById('droz-brothers').style.display = 'block';
+  }, 10);
+}
+
+function drozBrothersResetSizeOriginal() {
+  document.getElementById('droz-brothers-title-text').style.display = 'block';
+  document.getElementById('droz-brothers-btn-minimize').style.display = 'block';
+  document.getElementById('droz-brothers-menu-normal').style.display = 'block';
+
+  document.getElementById('droz-brothers-menu-minimized').style.display = 'none';
+  document.getElementById('droz-brothers-btn-minimized').style.display = 'none';
+  document.getElementById('droz-brothers-btn-minimized').style.display = 'none';
+}
+
+// metodo responsavel por remover title do caixa brothers
+function drozBrothersTitleOpenOrClose() {
+  if (button_model !== 'droz-brothers') {
+    return;
+  }
+
+  var element = document.getElementById("drz_chat_overlay_main");
+
+  // visible
+  if (element.offsetWidth > 0 && element.offsetHeight > 0) {
+    document.getElementById("droz-brother-title").style.display = 'none';
+    document.getElementById("droz-brothers").style.borderTopRightRadius = 0;
+    document.getElementById("droz-brothers").style.borderTopLeftRadius = 0;
+
+    return;
+  }
+
+  // not visible
+  document.getElementById("droz-brothers").style.borderTopRightRadius = '5px';
+  document.getElementById("droz-brothers").style.borderTopLeftRadius = '5px';
+  document.getElementById("droz-brother-title").style.display = 'block';
+
+  drozBrothersResetStyle();
+}
+
+// metodo responsavel por resetar todo style
+function drozBrothersResetStyle() {
+  var options = document.getElementsByClassName('droz-brothers-open');
+
+  for (var i = 0; i < options.length; i++) {
+    var rxp = new RegExp("(^|\\s)" + options[i].getAttribute('data-customer-key') + "(\\s|$)", "g")
+    document.getElementById("drz_overlay_chat_external").className = document.getElementById("drz_overlay_chat_external").className.replace(rxp, '');
+    document.getElementById("drz_chat_overlay_main").className = document.getElementById("drz_chat_overlay_main").className.replace(rxp, '');
+    document.getElementById('droz-brothers-menu-normal').style.backgroundColor = '';
+    options[i].className = options[i].className.replace(/\bactive\b/g, '');
+  }
+}
+// Final - Funcionalidades do Droz Brothers (Multiplos Droz)
+
+
+function addZopimWidgetOnPage(zopim_script) {
+
+  // if (isScriptLoaded($(zopim_script)[0].src)) {
+  //   return;
+  // }
+
+  var beg = zopim_script.indexOf("<script>");
+  var beg2 = zopim_script.indexOf('<script language="javascript">');
+  var end = zopim_script.indexOf("</script>");
+
+  if (beg > -1 && end > -1) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    
+    
+    script.textContent = zopim_script.substring(beg + 8, end);
+    document.getElementsByTagName("head")[0].appendChild(script);
+  } else if (beg2 > -1 && end > -1) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.textContent = zopim_script.substring(beg2 + 30, end);
+    document.getElementsByTagName("head")[0].appendChild(script);
+  } else {
+    var scriptSrc;
+    var scriptId;
+    var scriptTheme = "";
+
+    if (zopim_script.indexOf("src=")) {
+
+      scriptSrc = zopim_script.split("src=\"")[1].split("\"")[0];
+    }
+
+    if (zopim_script.indexOf("id=")) {
+      scriptId = zopim_script.split("id=\"")[1].split("\"")[0];
+    }
+
+    if (zopim_script.indexOf("##########") > 2) {
+      var scriptThemePart = zopim_script.split("##########");
+      scriptTheme += "setTimeout(function(){";
+      scriptTheme += scriptThemePart[1];
+      scriptTheme += "}, 2300);";
+    }
+
+    if (scriptSrc) {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = scriptSrc;
+      if (scriptId) {
+        script.id = scriptId;
+      }
+
+      document.getElementsByTagName("head")[0].appendChild(script);
+      if (scriptTheme != "") {
+        var script2 = document.createElement('script');
+        script2.text = scriptTheme;
+        document.getElementsByTagName("head")[0].appendChild(script2);
+      }
+
+    }
+  }
+}
+
+// function isScriptLoaded(url) {
+//   var scripts = document.getElementsByTagName('script');
+//   for (var i = scripts.length; i--;) {
+//       if (scripts[i].src == url) return true;
+//   }
+//   return false;
+// }
+
+function addSalesforceChatWidgetOnPage(event) {
+
+  var salesforce_script = event.data.salesforceChatScript;
+
+  var firstScript = salesforce_script.substring(salesforce_script.indexOf('<script type="text/javascript">') + 31, salesforce_script.indexOf("</script>"));
+  salesforce_script = salesforce_script.replace(firstScript, '');
+  salesforce_script = salesforce_script.replace('<script type="text/javascript"></script>', '');
+
+  var secondScriptSrc = salesforce_script.substring(salesforce_script.indexOf("src='") + 5, salesforce_script.indexOf("'></script>"));
+  salesforce_script = salesforce_script.replace("<script type='text/javascript' src='" + secondScriptSrc + "'></script>", '');
+
+  var thirdScript = salesforce_script.substring(salesforce_script.indexOf("<script type='text/javascript'>") + 31, salesforce_script.indexOf("</script>"));
+  salesforce_script = salesforce_script.replace(thirdScript, '');
+
+  // o que sobrou na variavel eh apenas html
+  document.getElementsByTagName("head")[0].innerHTML += salesforce_script;
+
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.textContent = firstScript;
+  document.getElementsByTagName("head")[0].appendChild(script);
+
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = secondScriptSrc;
+  document.getElementsByTagName("head")[0].appendChild(script);
+
+  setTimeout(function () {
+
+    if (event.data.name) {
+      liveagent.addCustomDetail('Name', event.data.name);
+      liveagent.setName(event.data.name);
+    }
+    if (event.data.email) {
+      liveagent.addCustomDetail('E-mail', event.data.email);
+    }
+    if (event.data.history) {
+      liveagent.addCustomDetail('Histórico', event.data.history);
+    }
+    liveagent.addCustomDetail('Origin', "DROZ");
+
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.textContent = thirdScript;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }, 1000);
+
+  var idSalesForceChat = salesforce_script.substring(salesforce_script.indexOf("liveagent.startChat") + 21, salesforce_script.indexOf("src") - 4);
+  
+
+  setTimeout(function () {
+    activateSalesforceChat(idSalesForceChat);
+  }, 2500);
+}
+
+function addMovideskChatWidgetOnPage(movidesk_script) {
+  var scriptSrc;
+  var scriptId;
+
+  if (movidesk_script.indexOf("mdChatClient=")) {
+    scriptId = movidesk_script.split("mdChatClient=\"")[1].split("\"")[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.text = "var mdChatClient='" + scriptId + "'";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+
+  if (movidesk_script.indexOf("src=")) {
+    scriptSrc = movidesk_script.split("src=\"")[1].split("\"")[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = scriptSrc;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+}
+
+function addNeoassistChatWidgetOnPage(neoassist_script, event) {
+  if (neoassist_script.trim().indexOf("(function() ") == 0) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    var neoName = event.data.name != undefined ? event.data.name : '';
+    var neoMail = event.data.email != undefined ? event.data.email : '';
+    var neoCateg = event.data.neoCateg != undefined ? event.data.neoCateg : '';
+    localStorage.setItem('droz-init', new Date().getTime().toString());
+    localStorage.setItem('droz-neoName', neoName);
+    localStorage.setItem('droz-neoMail', neoMail);
+    localStorage.setItem('droz-neoCateg', neoCateg);
+    var str = " var neoName = '" + neoName + "';\n var neoMail = '" + neoMail + "';\n var neoCateg = '" + neoCateg + "';\n " + neoassist_script;
+    script.text = str;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  }
+
+}
+
+
+function activateZopimDeprecated(event, returnChat) {
+  $droz("#launcher").show();
+  $droz(".zopim").show();
+  $droz("#drz_overlay_chat_external").hide();
+
+  if (returnChat) {
+    zE('webWidget:on', 'chat:end', function() {
+      
+      $droz("#drz_overlay_chat_external").show();
+      $droz("#launcher").hide();
+      $droz(".zopim").hide();
+      zE('webWidget', 'close');
+      zE('webWidget', 'reset');
+    });
+  }
+
+  zE(function () {
+    zE.activate();
+    $zopim(function () {
+      $zopim.livechat.setOnStatus(function (status) {
+
+        if (status === 'online') {
+          
+          // $droz("#launcher").hide();
+          $droz(".zopim").hide();
+          setTimeout(function () {
+            $zopim.livechat.setName(event.data.name || "");
+            $zopim.livechat.setEmail(event.data.email || "");
+            if (event.data.zopimDepartment && event.data.zopimDepartment != null) {
+              $zopim.livechat.departments.setVisitorDepartment(event.data.zopimDepartment);
+            }
+          }, 2800);
+          if (event.data.watson) {
+            setTimeout(function () {
+              for (var i = 0; i < event.data.history.length; i++) {
+                $zopim.livechat.say(event.data.history[i].agent + ": " + event.data.history[i].text.replace(/<\/?[^>]+(>|$)/g, ""));
+              }
+              $zopim.livechat.say("Atendimento transferido pelo Watson!");
+            }, 2800);
+          } else {
+            // $zopim.livechat.setNotes(event.data.history);
+
+            if (verifyTimerEventListener(event)) {
+              setTimeout(function () {
+                $zopim.livechat.setName(event.data.name || "");
+                $zopim.livechat.setEmail(event.data.email || "");
+                if (event.data.zopimDepartment && event.data.zopimDepartment != null) {
+                  $zopim.livechat.departments.setVisitorDepartment(event.data.zopimDepartment);
+                }
+                if (event.data.tags) {
+                  event.data.tags = event.data.tags.replace("[", "");
+                  event.data.tags = event.data.tags.replace("]", "");
+                  $zopim.livechat.addTags(event.data.tags);
+                }
+                if (event.data && event.data.tags) {
+                  $zopim.livechat.say(event.data.history + '\n' +
+                    "Tags do atendimento: " + event.data.tags);
+                } else {
+                  $zopim.livechat.say(event.data.history + '\n');
+                }
+
+                if (event.data.botName) {
+                  $zopim.livechat.say("Atendimento transferido por: " + event.data.botName)
+                } else {
+                  $zopim.livechat.say("Atendimento transferido pelo Droz!");
+                }
+              }, 2800);
+            }
+
+          }
+
+        } else {
+          
+          $droz("#launcher").show();
+          $droz(".zopim").show();
+
+        }
+      });
+    });
+  });
+}
+
+function activateSalesforceChat(idSalesForceChat) {
+  $droz("#drz_overlay_chat_external").hide();
+  liveagent.startChat(idSalesForceChat);
+}
+
+function activateZopim(event, returnChat) {
+  //validação para zopim antigo
+  if (event.data.zopimScript.indexOf("window.$zopim") > -1) {
+    if (window.$zopim === undefined || window.$zopim.livechat === undefined) {
+      return;
+    }
+    callZopim(event, returnChat);
+  } else {
+
+    zE(function () {
+      zE.activate();
+      callZopim(event, returnChat);
+    });
+  }
+}
+
+function activateMovidesk(event) {
+  $droz("#drz_overlay_chat_external").hide();
+  movideskLogin({
+    name: event.data.name || "",
+    email: event.data.email || "",
+    stayConnected: false,
+    emptySubject: false,
+    startChat: true, // Se o startChat for true, o aplicativo irá maximizar e a conversa irá inicializar automaticamente
+  });
+}
+
+function activateNeoassist(event) {
+  $droz("#drz_overlay_chat_external").hide();
+  NeoAssistTag.sdk.widgets[0].api.setFormField('name', 'fulano');
+  NeoAssistTag.sdk.widgets[0].api.setFormField('email', 'fulano@mail.com');
+}
+
+function callZopim(event, returnChat) {
+
+  $zopim(function () {
+
+    $zopim.livechat.setOnChatEnd(function () {
+      sessionStorage.removeItem("humanChatInit");
+      sessionStorage.removeItem("humanChatInitTime");
+    });
+
+    $zopim.livechat.setOnStatus(function (status) {
+
+      if (!returnChat) {
+        if (status === 'online') {
+          
+          setTimeout(function () {
+            $droz("#drz_overlay_chat_external").hide();
+            $zopim.livechat.setName(event.data.name || "");
+            $zopim.livechat.setEmail(event.data.email || "");
+            if (event.data.zopimDepartment && event.data.zopimDepartment != null) {
+              $zopim.livechat.departments.setVisitorDepartment(event.data.zopimDepartment);
+            }
+          }, 1500);
+          if (event.data.watson) {
+            setTimeout(function () {
+              $droz("#drz_overlay_chat_external").hide();
+              for (var i = 0; i < event.data.history.length; i++) {
+                $zopim.livechat.say(event.data.history[i].agent + ": " + event.data.history[i].text.replace(/<\/?[^>]+(>|$)/g, ""));
+              }
+              $zopim.livechat.say("Atendimento transferido pelo Watson!");
+              zE.activate();
+            }, 1500);
+          } else {
+            if (verifyTimerEventListener(event)) {
+              setTimeout(function () {
+                $droz("#drz_overlay_chat_external").hide();
+                $zopim.livechat.setName(event.data.name || "");
+                $zopim.livechat.setEmail(event.data.email || "");
+                if (event.data.zopimDepartment && event.data.zopimDepartment != null) {
+                  $zopim.livechat.departments.setVisitorDepartment(event.data.zopimDepartment);
+                }
+                // $zopim.livechat.setNotes(event.data.history);
+                if (event.data.tags) {
+                  event.data.tags = event.data.tags.replace("[", "");
+                  event.data.tags = event.data.tags.replace("]", "");
+                  $zopim.livechat.addTags(event.data.tags);
+                }
+                if (event.data && event.data.tags) {
+                  $zopim.livechat.say(event.data.history + '\n' +
+                    "Tags do atendimento: " + event.data.tags);
+                } else {
+                  $zopim.livechat.say(event.data.history + '\n');
+                }
+
+                if (event.data.botName) {
+                  $zopim.livechat.say("Atendimento transferido por: " + event.data.botName)
+                } else {
+                  $zopim.livechat.say("Atendimento transferido pelo Droz!");
+                }
+
+                zE.activate();
+              }, 1500);
+            }
+          }
+        } else {
+          $droz("#drz_overlay_chat_external").hide();
+          
+        }
+      } else {
+        $droz("#drz_overlay_chat_external").hide();
+        zE.activate();
+      }
+    });
+
+  });
+}
+
+function verifyTimerEventListener(event) {
+  if (window.localStorage.getItem('timesEventListener') != event.timeStamp) {
+    window.localStorage.setItem('timesEventListener', event.timeStamp);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// para os arquivos antigos que ainda nao foram atualizados e nao tem definida a var droz_account_status o acesso esta liberado tambem
+if (typeof droz_account_status == 'undefined' || droz_account_status) {
+
+  if (typeof zopim_integration == 'undefined') {
+    zopim_integration = false;
+    hideZopim();
+  }
+
+  // Evita quebra em usuários antigos.
+  if (typeof $droz === 'undefined') {
+    $droz = $;
+  }
+
+  var customParamsFullscreen = buildDrozFullscreenParameters();
+
+  // parametros customizados do controller fullscreen
+  if(customParamsFullscreen){
+    prechat_open_delay = customParamsFullscreen['open_delay'];
+  }
+
+  var customer_key = (typeof prechat_customer_key !== 'undefined') ? prechat_customer_key : 'default';
+  var typing_delay = (typeof prechat_typing_delay !== 'undefined') ? prechat_typing_delay : 2500;
+  var open_delay = (typeof prechat_open_delay !== 'undefined') ? prechat_open_delay : 0;
+  var button_model = (typeof prechat_button_model !== 'undefined') ? prechat_button_model : 'v1';
+  var button_text = (typeof prechat_button_text !== 'undefined') ? prechat_button_text : 'Posso Ajudar';
+  var droz_position_class = (typeof droz_position !== 'undefined') ? droz_position : '';
+  var timeReturnChatTransferConfig = (typeof timeReturnChatTransferConfig !== 'undefined') ? timeReturnChatTransferConfig : '';
+  var animate_window = (typeof prechat_animate !== 'undefined' && (prechat_animate == true || prechat_animate == 'true')) ? true : false;
+  var droz_skin = (typeof droz_skin !== 'undefined') ? droz_skin : '';
+  var start_fullscreen = (typeof start_fullscreen !== 'undefined') ? start_fullscreen : false;
+  var droz_minimized_hide_text = (typeof droz_minimized_hide_text !== 'undefined' && (droz_minimized_hide_text == 'true' || droz_minimized_hide_text == true)) ? true : false;
+  var is_hoverable = (typeof is_hoverable !== 'undefined' && (is_hoverable == 'true' || is_hoverable == true)) ? true : false;
+  var layout_updated = (typeof layout_updated !== 'undefined' && (layout_updated == 'true' || layout_updated == true)) ? true : false;
+
+  if (layout_updated) {
+    var droz_position_desktop = (typeof droz_position_desktop !== 'undefined') ? droz_position_desktop : 'bottom_right';
+    var droz_position_mobile = (typeof droz_position_mobile !== 'undefined') ? droz_position_mobile : 'bottom_right';
+
+    var header_btn_close = (typeof header_btn_close !== 'undefined' && (header_btn_close == 'true' || header_btn_close == true)) ? true : false;
+    var header_btn_minimize = (typeof header_btn_minimize !== 'undefined' && (header_btn_minimize == 'true' || header_btn_minimize == true)) ? true : false;
+    var header_btn_maximize = (typeof header_btn_maximize !== 'undefined' && (header_btn_maximize == 'true' || header_btn_maximize == true)) ? true : false;
+
+    var has_dialogbox_desktop = (typeof has_dialogbox_desktop !== 'undefined' && (has_dialogbox_desktop == 'true' || has_dialogbox_desktop == true)) ? true : false;
+    var has_dialogbox_mobile = (typeof has_dialogbox_mobile !== 'undefined' && (has_dialogbox_mobile == 'true' || has_dialogbox_mobile == true)) ? true : false;
+    var dialogbox_text_desktop = (typeof dialogbox_text_desktop !== 'undefined') ? dialogbox_text_desktop : 'Olá, como posso te ajudar hoje?';
+    var dialogbox_text_mobile = (typeof dialogbox_text_mobile !== 'undefined') ? dialogbox_text_mobile : 'Olá, como posso te ajudar hoje?';
+
+    var has_chat_boticon = (typeof has_chat_boticon !== 'undefined' && (has_chat_boticon == 'true' || has_chat_boticon == true)) ? true : false;
+    var has_chat_usericon = (typeof has_chat_usericon !== 'undefined' && (has_chat_usericon == 'true' || has_chat_usericon == true)) ? true : false;
+
+    var is_hoverable_mobile = (typeof is_hoverable_mobile !== 'undefined' && (is_hoverable_mobile == 'true' || is_hoverable_mobile == true)) ? true : false;
+    var icon_minimized = (typeof icon_minimized !== 'undefined') ? icon_minimized.replace(/[\"']/g, '').slice(4, -1) : 'https://s3-sa-east-1.amazonaws.com/chatbot-droz/chatbot-droz-prod/attachment/droz-settings/droz-v1.png';
+    var icon_minimized_mobile = (typeof icon_minimized_mobile !== 'undefined') ? icon_minimized_mobile.replace(/[\"']/g, '').slice(4, -1) : 'https://s3-sa-east-1.amazonaws.com/chatbot-droz/chatbot-droz-prod/attachment/droz-settings/droz-v1.png';
+    var icon_minimized_hover  = (typeof icon_minimized_hover !== 'undefined') ? icon_minimized_hover.replace(/[\"']/g, '').slice(4, -1) : 'https://s3-sa-east-1.amazonaws.com/chatbot-droz/chatbot-droz-prod/attachment/droz-settings/droz-v1.png';
+    var icon_minimized_hover_mobile = (typeof icon_minimized_hover_mobile !== 'undefined') ? icon_minimized_hover_mobile.replace(/[\"']/g, '').slice(4, -1) : 'https://s3-sa-east-1.amazonaws.com/chatbot-droz/chatbot-droz-prod/attachment/droz-settings/droz-v1.png';
+    var minimized_img_only = (typeof minimized_img_only !== 'undefined' && (minimized_img_only == 'true' || minimized_img_only == true)) ? true : false;
+    var minimized_img_only_mobile = (typeof minimized_img_only_mobile !== 'undefined' && (minimized_img_only_mobile == 'true' || minimized_img_only_mobile == true)) ? true : false;
+
+    var header_btns_inverted_color = (typeof header_btns_inverted_color !== 'undefined' && (header_btns_inverted_color == 'true' || header_btns_inverted_color == true)) ? true : false;
+    var has_footer = (typeof has_footer !== 'undefined' && (has_footer == 'true' || has_footer == true)) ? true : false;
+    var has_online_description = (typeof has_online_description !== 'undefined' && (has_online_description == 'true' || has_online_description == true)) ? true : false;
+    var expand_screensize = (typeof expand_screensize !== 'undefined' && (expand_screensize == 'true' || expand_screensize == true)) ? true : false;
+    var allows_extra_attachments = (typeof allows_extra_attachments !== 'undefined' && (allows_extra_attachments == 'true' || allows_extra_attachments == true)) ? true : false;
+    var origin_domain = window.location.hostname;
+  }
+
+  var animation_prop = {
+    windowAnimationOpen: 'none',
+    windowAnimationClose: 'none',
+    buttonAnimationOpen: 'none',
+    buttonAnimationClose: 'none'
+  };
+
+  if (droz_skin == 'venus') {
+    animation_prop = {
+      windowAnimationOpen: 'slideVertical',
+      windowAnimationClose: 'slideVertical'
+    };
+  } else if (droz_skin == 'saturno') {
+    animation_prop = {
+      windowAnimationOpen: 'slideVertical',
+      windowAnimationClose: 'slideVertical',
+      buttonAnimationOpen: 'slideHorizontal',
+      buttonAnimationClose: 'slideHorizontal'
+    };
+  }
+
+
+  // Watson
+  var watsontype = false;
+  if (typeof droz_ibm_watson_type !== 'undefined') {
+    watsontype = droz_ibm_watson_type;
+  } else if (typeof prechat_watsontype !== 'undefined') {
+    watsontype = prechat_watsontype;
+  }
+  var watsonRedirectUrl = false;
+  if (typeof droz_ibm_watson_redirect_url !== 'undefined') {
+    watsonRedirectUrl = droz_ibm_watson_redirect_url;
+  } else if (typeof prechat_watsonRedirectUrl !== 'undefined') {
+    watsonRedirectUrl = prechat_watsonRedirectUrl;
+  }
+
+  var watsonuser = (typeof prechat_watsonuser !== 'undefined') ? prechat_watsonuser : false;
+  // Watson
+
+  var watsonAssistantUrl = false;
+  if (typeof droz_ibm_watson_assistant_url !== 'undefined') {
+    watsonAssistantUrl = droz_ibm_watson_assistant_url;
+  } else if (typeof prechat_watsonAssistantUrl !== 'undefined') {
+    watsonAssistantUrl = prechat_watsonAssistantUrl;
+  }
+
+  /* Multi-language */
+  // Lingua padrão do bot
+  var defaultBotLanguageParams = (typeof defaultBotLanguage !== 'undefined' && defaultBotLanguage != null ? defaultBotLanguage : "BR");
+  // listagem de linguas
+  var botLanguagesParams = (typeof botLanguages !== 'undefined' && botLanguages.length > 0 ? botLanguages.join(",") : null);
+
+  // Monta url para prechat
+  var prechat_url = drozBuildUrlIframe(prechat_base_url, droz_token, customer_key, open_delay, typing_delay, drozScriptParams, drozEnviromentFolder,
+                                      watsontype, watsonuser, watsonRedirectUrl, watsonAssistantUrl, droz_skin, start_fullscreen,
+                                      layout_updated, droz_position_desktop, droz_position_mobile, header_btn_close, header_btn_maximize, header_btn_minimize,
+                                      has_dialogbox_desktop, has_dialogbox_mobile, dialogbox_text_desktop, dialogbox_text_mobile, has_chat_boticon, has_chat_usericon,
+                                      icon_minimized, icon_minimized_mobile, is_hoverable_mobile, icon_minimized_hover, icon_minimized_hover_mobile, minimized_img_only,
+                                      minimized_img_only_mobile, header_btns_inverted_color, has_footer, has_online_description, expand_screensize, defaultBotLanguageParams,
+                                      botLanguagesParams, allows_extra_attachments, origin_domain);
+
+  var zopimStatus = 'offline';
+
+  //se nao tiver skin ainda, carrega o css antigo
+  var baseStyle = droz_skin != '' ? '/v1/droz.css' : '/iframe/main.css';
+
+  drozAddCssInHead(prechat_base_url + baseStyle, 1);
+  drozAddCssInHead('https://fonts.googleapis.com/css?family=Roboto:400,700,900', 1);
+
+  // se houver o drozScriptParams significa que feio do v1 (droz.js)
+  if (typeof drozScriptParams !== 'undefined') {
+    drozAddCssInHead('https://s3-sa-east-1.amazonaws.com/chatbot-droz/' + drozEnviromentFolder + '/attachment/' + drozScriptParams.i + '/main-v1.css', drozScriptParams.v, init_window_onpage);
+  } else {
+    // inicializamos as variaveis para evitar erro na versao antiga
+    var drozScriptParams = false,
+      drozEnviromentFolder = false;
+    init_window_onpage();
+  }
+
+  function init_window_onpage() {
+    var htmlTemplate = '';
+
+    if (!layout_updated) {
+      htmlTemplate += '<div id="drz_overlay_chat_external" class="drz_main ' + ' skin_' + droz_skin + ' ' + customer_key + ' ' + droz_position_class + '">';
+      htmlTemplate += '    <div id="drz_chat_overlay_main" class="drz_content drz_chat_base_' + button_model + ' notranslate ' + customer_key + ' ' + (animate_window ? 'minimized' : '') + '" style="display: none; direction: ltr;">';
+
+      htmlTemplate += '              <iframe name="preChat" allow="microphone" id="droz-iframe" class="drz_iframe ' + droz_skin + '">';
+      htmlTemplate += '                  <p>Your browser does not support iframes.</p>';
+      htmlTemplate += '              </iframe>';
+      htmlTemplate += '    </div>';
+      htmlTemplate += '    <div id="drz_btn_open" class="drz_btn_open ' + customer_key + ' drz_btn_' + button_model + ' ' + (droz_minimized_hide_text == true ? 'drz_text_hidden' : '') + '" data-tid="wm">';
+
+      if (droz_skin == 'venus' || droz_skin == 'saturno') {
+        htmlTemplate += '    <div id="drz_btn_txt" class="drz_btn_txt" data-tid="wm"></div>';
+        htmlTemplate += '    <div class="drz_btn_open_minimized_arrow"></div>';
+        htmlTemplate += '    <div id="drz_btn_img" class="drz_btn_img" data-tid="wm"></div>';
+      }
+
+      // Botao V2 - com texto
+      if (button_model === 'v2') {
+
+        htmlTemplate += '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310.89 80.06">';
+        htmlTemplate += '  <g id="button_help" data-name="button help">';
+        htmlTemplate += '    <path class="drz_svg_background" d="M309.27,43.48a2.48,2.48,0,0,0-1.92-.05,20.72,20.72,0,0,1-8.5-.14,39.79,39.79,0,0,0-7.6-26.73,44.26,44.26,0,0,0-3.14-3.73c-.73-.71-1.46-1.43-2.29-2.28a39.22,39.22,0,0,0-29-10.5H40a40,40,0,1,0,0,80H260a40.25,40.25,0,0,1-6.49-.53,39.68,39.68,0,0,0,29.21-7.28,39.11,39.11,0,0,0,10.28-11,24.62,24.62,0,0,0,9.5-4.33,25.69,25.69,0,0,0,8.17-10.13A2.46,2.46,0,0,0,309.27,43.48ZM299.39,53a19.07,19.07,0,0,1-8.12,3.5,2.42,2.42,0,0,0-.58.11,2.3,2.3,0,0,0-1.83,1.66,34.86,34.86,0,1,1-6.14-44,14.66,14.66,0,0,1,1.85,2,32.65,32.65,0,0,1,2.75,3.19A34.82,34.82,0,0,1,293.79,44a2.64,2.64,0,0,0,2,3.74h.13A25.8,25.8,0,0,0,303.52,49,20.67,20.67,0,0,1,299.39,53Z"/>';
+        htmlTemplate += '    <text class="drz_svg_text" transform="translate(120.71 50.80)">' + button_text + '</text>';
+        htmlTemplate += '<path class="drz_svg_background" d="M259,20.1h-.17a11.59,11.59,0,0,0-8.23,3.39,11.73,11.73,0,0,0-3.5,8.37,2.94,2.94,0,1,0,5.88,0A5.85,5.85,0,0,1,259,26a6,6,0,0,1,5.78,5.78A5.85,5.85,0,0,1,262,36.86a12.38,12.38,0,0,0-6,10.51,2.94,2.94,0,0,0,5.88,0,6.59,6.59,0,0,1,3.27-5.52,11.63,11.63,0,0,0,5.54-10.13A11.86,11.86,0,0,0,259,20.1Z"/>';
+        htmlTemplate += '    <path class="drz_svg_background" d="M258.87,53.09A2.94,2.94,0,0,0,255.93,56v1.13a2.94,2.94,0,0,0,5.88,0V56A2.94,2.94,0,0,0,258.87,53.09Z"/>';
+        htmlTemplate += '  </g>';
+        htmlTemplate += '</svg>';
+      }
+
+      htmlTemplate += '    </div>';
+
+      // Inicio - Funcionalidades do Droz Brothers (Multiplos Droz)
+      if (button_model === 'droz-brothers') {
+
+        htmlTemplate += '<section id="droz-brothers" style="display:none">';
+        htmlTemplate += '  <section id="droz-brother-title" class="title">';
+        htmlTemplate += '    <p id="droz-brothers-title-text">Precisa de ajuda?</p>';
+        htmlTemplate += '    <button id="droz-brothers-btn-minimize">';
+        htmlTemplate += '      <i class="minimize-icon"></i>';
+        htmlTemplate += '    </button>';
+        htmlTemplate += '    <nav id="droz-brothers-menu-minimized" class="menu-minimized">';
+        htmlTemplate += '      <ul>';
+
+        if (typeof droz_brothers_array !== 'undefined') {
+          for (var i = 0; i < droz_brothers_array.length; i++) {
+            htmlTemplate += '      <li class="droz-brothers-open" data-id="' + i + '" data-token="' + droz_brothers_array[i].token + '"  data-customer-key="' + droz_brothers_array[i].customerKey + '">';
+            htmlTemplate += droz_brothers_array[i].title;
+            htmlTemplate += '      </li>';
+          }
+        }
+
+        htmlTemplate += '    </nav>';
+        htmlTemplate += '    <button id="droz-brothers-btn-minimized">';
+        htmlTemplate += '      <i class="minimized-icon"></i>';
+        htmlTemplate += '    </button>';
+        htmlTemplate += '  </section>';
+        htmlTemplate += '  <nav id="droz-brothers-menu-normal" class="menu-normal">';
+        htmlTemplate += '    <ul>';
+
+        if (typeof droz_brothers_array !== 'undefined') {
+          for (var i = 0; i < droz_brothers_array.length; i++) {
+            htmlTemplate += '      <li id="droz-brothers-open-' + i + '" class="droz-brothers-open" data-id="' + i + '" data-token="' + droz_brothers_array[i].token + '"  data-customer-key="' + droz_brothers_array[i].customerKey + '">';
+            htmlTemplate += '        <img class="icon" src="' + droz_brothers_array[i].image + '" title="' + droz_brothers_array[i].title + '">';
+            htmlTemplate += '      </li>';
+          }
+        }
+
+        htmlTemplate += '    </ul>';
+        htmlTemplate += '  <nav>';
+        htmlTemplate += '</section>';
+      }
+    // Final - Funcionalidades do Droz Brothers (Multiplos Droz)
+    htmlTemplate += '</div>';
+
+    } else {
+
+      var dialogBoxType = droz_skin == 'venus' || droz_skin == 'saturno' ? 'new' : 'original';
+      var hasDialogBoxDesktop = has_dialogbox_desktop ? 'dialogbox_desktop' : "";
+      var hasDialogBoxMobile = has_dialogbox_mobile ? 'dialogbox_mobile' : "";
+      var mobilePosition = droz_position_mobile ? droz_position_mobile+"_mobile" : "";
+      var img_only = minimized_img_only ? "img-only" : "";
+      var img_only_mobile = minimized_img_only_mobile ? "img-only-mobile" : "";
+      htmlTemplate += '<div id="drz_overlay_chat_external" class="drz_main drz_main_updated ' + hasDialogBoxMobile + " " + hasDialogBoxDesktop + " dialogbox_"+dialogBoxType + ' ' + droz_skin+"_updated" + ' ' + customer_key + ' ' + droz_position_desktop+"_desktop" + " " +  mobilePosition + ' ' + (expand_screensize == true ? 'drz_expand_screensize' : '') + '">';
+      htmlTemplate += '    <div id="drz_chat_overlay_main" class="drz_content drz_chat_base_ notranslate ' + customer_key + ' ' + (animate_window ? 'minimized' : '') + '" style="display: none; direction: ltr;">';
+
+      htmlTemplate += '        <iframe name="preChat" allow="microphone" id="droz-iframe" class="drz_iframe ' + droz_skin+"_updated" + '">';
+      htmlTemplate += '            <p>Your browser does not support iframes.</p>';
+      htmlTemplate += '        </iframe>';
+      htmlTemplate += '    </div>';
+      htmlTemplate += '    <div class="drz_container '+ img_only+' '+ img_only_mobile +'">';
+
+      if (button_model === 'droz-brothers') {
+
+        htmlTemplate += '<section id="droz-brothers" style="display:none">';
+        htmlTemplate += '  <section id="droz-brother-title" class="title">';
+        htmlTemplate += '    <p id="droz-brothers-title-text"></p>';
+        htmlTemplate += '    <button style="visibility: hidden" id="droz-brothers-btn-minimize">';
+        htmlTemplate += '      <i class="minimize-icon"></i>';
+        htmlTemplate += '    </button>';
+        htmlTemplate += '    <nav style="visibility: hidden" id="droz-brothers-menu-minimized" class="menu-minimized">';
+        htmlTemplate += '      <ul>';
+
+        if (typeof droz_brothers_array !== 'undefined') {
+          for (var i = 0; i < droz_brothers_array.length; i++) {
+            htmlTemplate += '      <li class="droz-brothers-open" data-id="' + i + '" data-token="' + droz_brothers_array[i].token + '"  data-customer-key="' + droz_brothers_array[i].customerKey + '">';
+            htmlTemplate += droz_brothers_array[i].title;
+            htmlTemplate += '      </li>';
+          }
+        }
+
+        htmlTemplate += '    </nav>';
+        htmlTemplate += '    <button style="visibility: hidden" id="droz-brothers-btn-minimized">';
+        htmlTemplate += '      <i class="minimized-icon"></i>';
+        htmlTemplate += '    </button>';
+        htmlTemplate += '  </section>';
+        htmlTemplate += '  <nav style="visibility: hidden" id="droz-brothers-menu-normal" class="menu-normal">';
+        htmlTemplate += '    <ul>';
+
+        if (typeof droz_brothers_array !== 'undefined') {
+          for (var i = 0; i < droz_brothers_array.length; i++) {
+            htmlTemplate += '      <li id="droz-brothers-open-' + i + '" class="droz-brothers-open" data-id="' + i + '" data-token="' + droz_brothers_array[i].token + '"  data-customer-key="' + droz_brothers_array[i].customerKey + '">';
+            htmlTemplate += '        <img class="icon" src="' + droz_brothers_array[i].image + '" title="' + droz_brothers_array[i].title + '">';
+            htmlTemplate += '      </li>';
+          }
+        }
+
+        htmlTemplate += '    </ul>';
+        htmlTemplate += '  <nav>';
+        htmlTemplate += '</section>';
+      }
+
+      htmlTemplate += '        <div id="drz_btn_open_updated" class="' + customer_key + ' ' + "dialogbox_"+dialogBoxType + ' drz_btn_' + button_model + '" data-tid="wm">';
+      htmlTemplate += '           <img class="open_updated_img" src="'+icon_minimized+'"></img>';
+      htmlTemplate += '        </div>';
+      if (has_dialogbox_desktop) {
+        htmlTemplate += '        <div id="drz_dialog_box_desktop" class="drz_dialog_box ' + customer_key +' " data-tid="wm">';
+        htmlTemplate += '        </div>';
+      }
+      if (has_dialogbox_mobile) {
+        htmlTemplate += '        <div id="drz_dialog_box_mobile" class="drz_dialog_box ' + customer_key + '" data-tid="wm">';
+        htmlTemplate += '        </div>';
+      }
+      htmlTemplate += '    </div>';
+      htmlTemplate += '</div>';
+    }
+
+    if ((sessionStorage.getItem("humanChatInit") == undefined)) {
+      if (document.getElementById('droz-div') != undefined) {
+        document.getElementById('droz-div').innerHTML = htmlTemplate;
+        document.getElementById('droz-div').style.zIndex = "99";
+        if (is_hoverable) {
+          $('#drz_btn_img').addClass('drz_btn_img_hoverable')
+        }
+      } else {
+        document.body.innerHTML += htmlTemplate;
+      }
+    } else {
+      var configTimeRestartHumanChat = JSON.parse(sessionStorage.getItem("humanChatInitTime"));
+      var now = new Date();
+      var openChatHuman = Date.parse(configTimeRestartHumanChat.dateOpen);
+      var diffMs = (now - openChatHuman);
+      var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+      if (diffMins <= configTimeRestartHumanChat.timeReturnChatTransfer) {
+        var event = { data: JSON.parse(sessionStorage.getItem("humanChatInit")) }
+
+        addZopimWidgetOnPage(JSON.parse(sessionStorage.getItem("humanChatInit")).zopimScript);
+        setTimeout(function () {
+          activateZopim(event, true);
+        }, 1000);
+
+      } else {
+        sessionStorage.removeItem("humanChatInit");
+        sessionStorage.removeItem("humanChatInitTime");
+        if (document.getElementById('droz-div') != undefined) {
+          document.getElementById('droz-div').innerHTML = htmlTemplate;
+          document.getElementById('droz-div').style.zIndex = "99";
+        } else {
+          document.body.innerHTML += htmlTemplate;
+        }
+      }
+    }
+
+    // Atribuição dinâmica de ícones (desktop, mobile, desktop hover e mobile hover)
+    if ($(".drz_container")) {
+
+      if ($(window).width() < 1025) {
+        $(".open_updated_img").attr("src", icon_minimized_mobile);
+      } else {
+        $(".open_updated_img").attr("src", icon_minimized);
+      }
+
+      $(window).on('resize', function(){
+        var win = $(this);
+        if (win.width() < 1025) {
+          $(".open_updated_img").attr("src", icon_minimized_mobile);
+        } else {
+          $(".open_updated_img").attr("src", icon_minimized);
+        }
+      });
+
+      $(".drz_container").mouseover(function() {
+        if ($(window).width() < 1025 && is_hoverable_mobile) {
+          $(".open_updated_img").attr("src", icon_minimized_hover_mobile);
+        } else if ($(window).width() >= 1025 && is_hoverable) {
+          $(".open_updated_img").attr("src", icon_minimized_hover);
+        }
+      });
+
+      $(".drz_container").mouseout(function() {
+        if ($(window).width() < 1025) {
+          $(".open_updated_img").attr("src", icon_minimized_mobile);
+        } else if ($(window).width() >= 1025) {
+          $(".open_updated_img").attr("src", icon_minimized);
+        }
+      });
+    }
+
+    // Funcionalidades do Droz Brothers (Multiplos Droz)
+    drozBrothersInit();
+
+    var drz_button_properties = null;
+    var drz_open_delay_timeout;
+    //delay de abertura automatica do droz
+    if (open_delay != 0) {
+      drz_open_delay_timeout = setTimeout(function () {
+        $droz("#drz_btn_open, .drz_container").trigger("click");
+      }, open_delay);
+    }
+
+
+    $droz("#drz_btn_open, .drz_container, .drz_container").click(function () {
+
+      if ($droz(this).hasClass("loading-btn")) //bloqueia clique enquanto carrega iframe
+        return;
+
+      clearTimeout(drz_open_delay_timeout); //limpa delay de abertura automatica do droz
+
+      function show() {
+        $droz('#drz_btn_open, .drz_container').removeClass("loading-btn");
+        setTimeout(function () {
+          // remove o loading da quando é fullscreen
+          setTimeout(function () {
+            if($('.overlay').length > 0){
+              $('.overlay').fadeOut();
+            }
+          }, 800);
+          //após migração remover essa opção
+          if (((watsontype == 2 || watsontype == 4)) && !watsonRedirectUrl)
+            $droz("#drz_chat_overlay_main").slideDown();
+          else if (((watsontype == 2 || watsontype == 4)) && watsonRedirectUrl)
+            drozShowWindow();
+          else if (animate_window || animation_prop.windowAnimationOpen != null) {
+            drozShowWindow();
+          }
+          else
+            $droz("#drz_chat_overlay_main").show();
+          drozBrothersTitleOpenOrClose();
+          $(".drz_container").hide();
+          // Classe adicionada para podermos usar uma posição absoluta no container do Droz,
+          // previnindo assim quebras de layout devido à margem quando a janela abre em fullscreen.
+          $("#drz_overlay_chat_external").addClass('window-open');
+        }, 10);
+      }
+
+      if ($droz('#drz_chat_overlay_main').is(":visible")) {
+        drozCloseWindow();
+        drozBrothersTitleOpenOrClose();
+      } else {
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+          $droz("#drz_btn_open, .drz_container").hide();
+
+          drz_button_properties = [];
+        }
+        if (!$droz("#droz-iframe").attr("src")) {
+          $droz(this).addClass("loading-btn");
+          $droz("#droz-iframe").attr("src", prechat_url).one('load', show);
+        } else
+          show();
+      }
+    });
+
+    $droz("#drz_chat_overlay_minimize").click(drozMinimizeChat);
+    $droz("#drz_chat_overlay_close").click(drozOnClickCloseButton);
+
+    document.getElementById('droz-iframe').onload = function () {
+      if (typeof zE !== 'undefined') {
+
+        zE(function () {
+          $zopim(function () {
+            //document.getElementsByClassName("jx_ui_Widget")[0].style.display = 'none';
+            $zopim.livechat.hideAll();
+            $zopim.livechat.window.onHide(function () {
+              $zopim.livechat.button.show();
+            });
+            $zopim.livechat.setOnStatus(function (status) {
+
+              var frame = document.getElementById('droz-iframe');
+              if (status === 'online') {
+                
+                data = {};
+                data.type = "statusUpdate";
+                data.status = "online";
+                frame.contentWindow.postMessage(data, '*');
+              } else {
+                
+                data = {};
+                data.type = "statusUpdate";
+                data.status = "offline";
+                frame.contentWindow.postMessage(data, '*');
+              }
+
+            });
+          });
+        });
+      }
+
+      // envia variaveis definidas pelo usuario em properties:
+      if (typeof nlpNotFoundVariable !== 'undefined') {
+        data = {};
+        data.type = "defineNlpNotFoundVariable";
+        data.value = nlpNotFoundVariable;
+        document.getElementById('droz-iframe').contentWindow.postMessage(data, '*');
+      }
+
+      // envia variaveis definidas pelo usuario em properties:
+      if (typeof nlpPlaceholder !== 'undefined') {
+        data = {};
+        data.type = "defineNlpPlaceholder";
+        data.value = nlpPlaceholder;
+        document.getElementById('droz-iframe').contentWindow.postMessage(data, '*');
+      }
+
+      // envia variaveis definidas pelo usuario em properties:
+      if (typeof feedbackNlp !== 'undefined') {
+        if (feedbackNlp == 'true') {
+          data = {};
+          data.type = "defineFeedbackNlp";
+          data.value = feedbackNlp;
+          document.getElementById('droz-iframe').contentWindow.postMessage(data, '*');
+        }
+      }
+
+      if (typeof feedbackNlpMessage !== 'undefined') {
+        if (feedbackNlpMessage !== '') {
+          data = {};
+          data.type = "defineFeedbackNlpMessage";
+          data.value = feedbackNlpMessage;
+          document.getElementById('droz-iframe').contentWindow.postMessage(data, '*');
+        }
+      }
+
+      if (typeof feedbackNlpNegativeMessage !== 'undefined') {
+        if (feedbackNlpNegativeMessage !== '') {
+          data = {};
+          data.type = "defineFeedbackNlpNegativeMessage";
+          data.value = feedbackNlpNegativeMessage;
+          document.getElementById('droz-iframe').contentWindow.postMessage(data, '*');
+        }
+      }
+
+      if (typeof configLanguages !== 'undefined') {
+        if (configLanguages !== '') {
+          data = {};
+          data.type = "defineConfigLanguages";
+          data.value = configLanguages;
+          document.getElementById('droz-iframe').contentWindow.postMessage(data, '*');
+        }
+      }
+    };
+  };
+
+  //INVESTIGAR COMPORTAMENTO DO ZOPIM NO DROZ (SEM INTEGRAÇÃO WATSON)
+  //QUANDO AS CONFIGURAÇÕES DO CHAT MUDAM
+
+
+  window.addEventListener('message', function (event) {
+    if (~prechat_base_url.indexOf(event.origin)) {
+
+      switch (event.data.message) {
+        case "Iniciar Chat":
+
+          if (event.data.zopimScript) {
+            if (zopim_integration || event.data.zopimScript) {
+              addZopimWidgetOnPage(event.data.zopimScript);
+              setTimeout(function () {
+                if (timeReturnChatTransferConfig && timeReturnChatTransferConfig != "" && timeReturnChatTransferConfig > 0) {
+                  let dateNew = new Date();
+                  sessionStorage.setItem("humanChatInit", JSON.stringify(event.data));
+                  sessionStorage.setItem("humanChatInitTime", JSON.stringify({ timeReturnChatTransfer: timeReturnChatTransferConfig, dateOpen: dateNew }));
+                }
+                activateZopim(event, false);
+              }, 1000);
+            } else {
+              activateZopimDeprecated(event, false);
+            }
+          }
+
+          if (event.data.salesforceChatScript) {
+            addSalesforceChatWidgetOnPage(event);
+          }
+
+          if (event.data.movideskScript) {
+            addMovideskChatWidgetOnPage(event.data.movideskScript);
+            setTimeout(function () {
+              activateMovidesk(event);
+            }, 2000);
+          }
+
+          if (event.data.neoassistScript) {
+            addNeoassistChatWidgetOnPage(event.data.neoassistScript, event);
+            setTimeout(function () {
+              $droz("#drz_overlay_chat_external").hide();
+              //   activateNeoassist(event);
+            }, 2000);
+          }
+
+          break;
+
+        case "Iniciar Chat Watson":
+          
+          activateZopimDeprecated(event, true);
+          break;
+
+        case "Fechar DROZ":
+          
+          //closeWindow();
+          drozOnClickCloseButton();
+          break;
+
+          // Fecha o droz quando é link do fullscreen
+        case "Fechar DROZ Fullscreen":
+          drozOnClickCloseButtonFullscreen();
+          break;
+
+        case "Open Modal External Link":
+          if (event.data.watson) {
+            window.open(event.data.url);
+          } else {
+            drozAddModalExternalLink(event.data.url);
+          }
+          break;
+
+        case "Open Modal Image":
+          // Essa function esta em droz.js
+          // So ira funcionar para clientes que utilizam o novo script
+          drozAddModalZoomImage(event.data.imageSrc, event.data.imageTitle);
+          break;
+
+        case "Set Fullscreen":
+          if (event.data.fullscreen == true)
+            document.getElementById('drz_overlay_chat_external').classList.add('drz_fullscreen');
+          else if (event.data.fullscreen == false)
+            document.getElementById('drz_overlay_chat_external').classList.remove('drz_fullscreen');
+          break;
+
+        case "Set sessionStorage":
+          if (window.sessionStorage) {
+            window.sessionStorage.setItem(event.data.key, event.data.value);
+          }
+          break;
+
+        case "Remove sessionStorage":
+          if (window.sessionStorage) {
+            window.sessionStorage.removeItem(event.data.key);
+          }
+          break;
+
+        case "Minimize":
+          drozMinimizeChat();
+          break;
+
+        case "Close Droz":
+          drozOnClickCloseButton(); //click no botao fechar no header
+          break;
+
+        default:
+          
+          break;
+      }
+    } else {
+      // The data hasn't been sent from your site!
+      return;
+    }
+  });
+}

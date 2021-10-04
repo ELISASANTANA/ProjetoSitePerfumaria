@@ -5,153 +5,181 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
+    <link rel="stylesheet" href="Cadastro.css">
+    <link rel="shortcut icon" href="imagens/Logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
+    <title>Sua conta</title>
 </head>
 
 <body>
-    <!--cabeçalho padrão do site-->
-    <header>
-        <p>
-           <h1> <a href="Home.html"><img src="imagens/Logo.png" alt="LogoPerfumaria" title=LogoPerfumaria></a>Perfumes</h1>
-        </p>
+    <header class="header">
+        <div>
+            <div id="logo"><img src="imagens/Logo.png" alt="LogoPerfumaria" id="logo">
+            </div>
+        </div>
+
+        <div>
+            <h1>parfumerie chicos</h1>
+        </div>
+
         <nav>
-            <!--caixa de pesquisa-->
-            <form>
-                <input type="searh" name="pesquisa" id="pesq" placeholder="Navegue em nosso site">
-                <button><img src="imagens/pesq.png" alt="botao de pesquisa"></a></button>
-            </form>
-            <!--barra de navegação no cabeçalho so site, padrão para todas paginas da site-->
-            <ul>
-                <li><a href="#">Perfumaria</a></li>
-                <li><a href="#">Colônias</a></li>
-                <li><a href="#">Para o lar</a></li>
-                <li><a href="Home.html" _blank>Home</a></li>
-                <li><a href="Sobre.html" target="_blank">Sobre</a> </li>
-                <li><a href="Cadastro.html" target="_blank">Log in</a></li>
-                <li><a href=""><img src="imagens/sacola.png" alt="sacola de compras">Sacola</a></li>
-            </ul>
+            <div class="searchArea">
+                <img class="searchIcon" src="imagens/searchicon.svg" alt="botao de pesquisa">
+                <input type="search" name="search" placeholder="Navegue em nosso site" class="searchBox">
+            </div>
+
+            <div>
+                <ul>
+                    <li><a href="#">Perfumes</a></li>
+                    <li><a href="#">Para o lar</a></li>
+                    <li><a href="Sobre.html" target="_blank">Sobre</a> </li>
+                    <li><a href="Cadastro.html" target="_blank">Sua conta</a></li>
+                    <li><a href=""><img src="imagens/sacola.png" alt="sacola de compras"></a></li>
+                </ul>
+            </div>
         </nav>
     </header>
 
-    <!--Cadastro do site-->
     <h2>CADASTRO</h2>
-    <form action="" method="">
-        <fieldset>
-            <legend>Dados pessoais</legend>
-            <p>
-                <label for="nome">Nome Completo:</label>
-                <input type="text" id="nome" placeholder="Digite seu nome completo">
-            </p>
-            <p>
-                <label for="CPF">CPF:</label>
-                <input type="number" id="CPF" placeholder="Digite seu CPF">
-            </p>
-            <p>
-                <label for="dataNascimento">Data de nascimento:</label>
-                <input type="date" id="idNascimento">
-            </p>
-            <p>
-                <label for="estado">Estado:</label>
-                <select name="estado" id="estado">
-                    <option value=""><b>Estado</b></option>
-                    <option value="AC">Acre</option>
-                    <option value="AL">Alagoas</option>
-                    <option value="AP">Amapá</option>
-                    <option value="AM">Amazonas</option>
-                    <option value="BA">Bahia</option>
-                    <option value="CE">Ceará</option>
-                    <option value="DF">Distrito Federal</option>
-                    <option value="ES">Espirito Santo</option>
-                    <option value="GO">Goiás</option>
-                    <option value="MA">Maranhão</option>
-                    <option value="MT">Mato Grosso</option>
-                    <option value="MS">Mato Grosso do Sul</option>
-                    <option value="MG">Minas Gerais</option>
-                    <option value="PA">Pará</option>
-                    <option value="PB">Paraíba</option>
-                    <option value="PR">Paraná</option>
-                    <option value="PE">Pernambuco</option>
-                    <option value="PI">Piauí</option>
-                    <option value="RJ">Rio de Janeiro</option>
-                    <option value="RN">Rio Grande do Norte</option>
-                    <option value="RS">Rio Grande do Sul</option>
-                    <option value="RO">Rondônia</option>
-                    <option value="RR">Roraima</option>
-                    <option value="SC">Santa Catarina</option>
-                    <option value="SP">São Paulo</option>
-                    <option value="SE">Sergipe</option>
-                    <option value="TO">Tocantins</option>
-                </select>
-            <p>
-                <label for="rua">Rua:</label>
-                <input type="text" name="rua" id="rua">
+    <div class="form">
+        <form action="" method="">
+            <fieldset>
+                <legend>Dados pessoais</legend>
 
-                <label for="numero">Numero:</label>
-                <input type="number" name="numero" id="numero">
+                <div>
+                    <label for="nome"><span>Nome Completo:</span></label>
+                    <input type="text" id="nome" placeholder="Digite seu nome completo" class="inputField">
+                </div>
 
-                <label for="complemento">Complemento:</label>
-                <input type="text" name="complemento" id="complemento">
+                <div>
+                    <label for="CPF"><span>CPF:</span></label>
+                    <input type="number" id="CPF" placeholder="Digite seu CPF" class="inputField">
+                </div>
 
-                <label for="bairro">Bairro:</label>
-                <input type="text" name="bairro" id="bairro">
-            </p>
-            </p>
-        </fieldset>
+                <div>
+                    <label for="dataNascimento"><span>Data de nascimento:</span></label>
+                    <input type="date" id="idNascimento" class="inputField">
+                </div>
 
-        <fieldset>
-            <legend>Dados eletrônicos</legend>
-            <p>
-                <label for="email">Email:</label>
-                <input type="email" placeholder="Insira seu email">
-            </p>
-            <p>
-                <label for="senha">Senha:</label>
-                <input type="password" name="senha" id="senha" placeholder="Insira sua senha">
-            </p>
-            <p>
-                <label for="telefone">Telefone:</label>
-                <input type="tel" name="telefone" id="telefone" placeholder="(XX)X XXXX XXXX">
-            </p>
-            <p>
-                <label for="notificacao">Deseja receber alertas de ofertas do no site:</label>
-                <input type="radio" name="notificacao" id="notificacao">Gostaria
-                <input type="radio" name="notificacao" id="notificacao">Agora não
-            </p>
-        </fieldset>
-        <p>
-            <button type="reset">Limpar dados</button>
-            <button type="submit">Salvar</button>
-        </p>
-    </form>
+                <div>
+                    <label for="estado"><span>Estado:</span></label>
+                    <select name="estado" id="estado" class="selectField">
+                        <option value=""><b>Estado</b></option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Alagoas</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espirito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP">São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="rua"><span>Rua:</span></label>
+                    <input type="text" name="rua" id="rua" placeholder="Insira o nome da sua rua" class="inputField">
+                </div>
 
-    <!--Padrão para todas as páginas-->
+                <div>
+                    <label for="numero"><span>Numero:</span></label>
+                    <input type="number" name="numero" id="numero" placeholder="Número de residência"
+                        class="inputField">
+                </div>
+                <div>
+                    <label for="complemento"><span>Complemento:</span></label>
+                    <input type="text" name="complemento" id="complemento" placeholder="Complemento" class="inputField">
+                </div>
+                <div>
+                    <label for="bairro"><span>Bairro:</span></label>
+                    <input type="text" name="bairro" id="bairro" placeholder="Bairro" class="inputField">
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Dados eletrônicos</legend>
+                <div>
+                    <label for="email"><span>Email:</span></label>
+                    <input type="email" placeholder="Insira seu email" class="inputField">
+                </div>
+                <div>
+                    <label for="senha"><span>Senha:</span></label>
+                    <input type="password" name="senha" id="senha" placeholder="Insira sua senha" class="inputField">
+                </div>
+                <div>
+                    <label for="telefone"><span>Telefone:</span></label>
+                    <input type="tel" name="telefone" id="telefone" placeholder="(XX)X XXXX XXXX" class="inputField">
+                </div>
+                <div>
+                    <label><span>Ativar alertas de ofertas do no site:</span></label>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </fieldset>
+            <div class="buttonArea">
+                <div type="reset"><a href="#" class="button">Limpar dados</a></div>
+                <div type="submit"><a href="#" class="button">Salvar</a></div>
+            </div>
+        </form>
+    </div>
+    <div class="hrLine"><hr></div>
     <footer>
-        <p>Formas de pagamento
-        <ul>
-            <li><a href="#"><img src="imagens/barcode.png" alt=""></a></li>
-            <li><a href="#"><img src="imagens/visa.png" alt=""></a></li>
-            <li><a href="#"><img src="imagens/mastercard.png" alt=""></a></li>
-            <li><a href="#"><img src="imagens/dinners.png" alt=""></a></li>
-            <li><a href="#"><img src="imagens/elo.png" alt=""></a></li>
-        </ul>
-        </p>
-        <p>Atendimento por telefone <br>
-            (12) 3069 5462 <br>
-            0900 895 8421
-        </p>
-        <p>Nos encontre nas mídias sociais
-        <ul>
-            <li><a href="#"><img src="imagens/iconFB.png" alt="Icon Facebook"></a></li>
-            <li><a href="#"><img src="imagens/iconTT.png" alt="Icon Twitter"></a></li>
-            <li><a href="#"><img src="imagens/iconIG.png" alt="Icon Instagram"></a></li>
-        </ul>
-        </p>
-        <p>
-            Perfumaria Mademoiselle S/A - CNPJ: 34.960.679/0001-82 <br>
-            Endereço: Rua Rio Grande do Sul, 0256 - Bairro Rio Comprido, Jacareí/SP CEP 12302-022 <br>
-            &copy Perfurmaria Mademoiselle
-        </p>
-    </footer>
+        <div class="pay">
+            <h4>Formas de pagamento</h4>
+            <ul>
+                <li><a href="#"><img src="imagens/barcode.png" alt="Boleto" title=Boleto></a></li>
+                <li><a href="#"><img src="imagens/visa.png" alt="Cartão Bandeira Visa" title=Visa></a></li>
+                <li><a href="#"><img src="imagens/mastercard.png" alt="Cartão Bandeira Mstercard" title=Mastercard></a>
+                </li>
+                <li><a href="#"><img src="imagens/dinners.png" alt="Cartão Bandeira Dinners" title=Diners></a>
+                </li>
+                <li><a href="#"><img src="imagens/elo.png" alt="Cartão Bandeira Elo" title=Elo></a></li>
 
+            </ul>
+        </div>
+
+        <div class="container">
+            <div class="tel">
+                <p>Atendimento por telefone</p>
+                <p>(12) 3069 5462 / 0900 895 8421</p>
+            
+            </div>
+            <div class="sociais">
+                <p>Nos acompanhe nas redes sociais</p>
+                <ul>
+                    <li><a href="#"><img src="imagens/iconFB.png" alt="Icon Facebook"></a></li>
+                    <li><a href="#"><img src="imagens/iconTT.png" alt="Icon Twitter"></a></li>
+                    <li><a href="#"><img src="imagens/iconIG.png" alt="Icon Instagram"></a></li>
+                </ul>
+            </div>
+        </div>
+            <div class="address">
+                <address>
+                    PARFUMERIE CHICOS S/A - CNPJ: 34.960.679/0001-82</p>
+                    Endereço: Rua Rio Grande do Sul, 0256 - Bairro Rio Comprido, Jacareí/SP CEP 12302-022
+                    &copy PARFUMERIE CHICOS
+                </address>
+            </div>
+    </footer>
 </body>
+
 </html>
