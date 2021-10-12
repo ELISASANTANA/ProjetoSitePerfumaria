@@ -25,19 +25,36 @@ img.bg{
     left: 0;
 } */
     
+.top{
+    width: 100%;
+    height: 10vh;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+  }
+
+/* Area do cabeçalho */
 header{
     width: 100%;
-    height: 165px;
+    height: 32vh;
+    border-top: 100px;
     border-radius: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
 
+/* Imagem da logo */
 #logo{
     display: flex;
     justify-content: center;
     margin: 5px;
+    margin-top: 38px;
 }
+
 
 header h1{
     text-align: center;
@@ -78,7 +95,7 @@ header h1{
 nav div ul li {
     list-style: none;
     display: inline-block;
-    margin-left: 140px;
+    margin-left: 8.75em;
 }
 
 nav div ul li a{
@@ -154,12 +171,11 @@ h2{
 }
 
 /* botao de switch */
-.switch{
+.switch {
     position: relative;
-    display: inline-block;
-    float: right;
     width: 60px;
     height: 34px;
+    float: right;
 }
 
 .switch input {
@@ -250,9 +266,6 @@ footer{
     margin-top: 30px; 
     width: 100%;   
     height: 100px;   
-    justify-content: space-between;   
-    align-items: center;   
-    align-content: center;
 }
 
 ul li {
@@ -260,31 +273,15 @@ ul li {
     padding: 15px;
 }
 
-.pay{
+.firstRow{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    width: 90%;
-    height: 80px;
-    margin: 20px;
+    flex-direction: row;
+    justify-content: space-between;   
+    margin: 0px 60px 0px 60px;
 }
 
-.container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
+.address{
     text-align: center;
-    width: 90%;
-    height: 80px;
-}
-
-.tel{
-    padding: 50px;
-    line-height: 45px;
-    margin-top: -20px;
 }
 
 hr{
@@ -292,10 +289,10 @@ hr{
     width: 800px;
     height: 1px;
     border: 0;
-    border-top: 1px solid #a03a50;
+    border-top: 2px solid #a03a50;
     margin-left: 50%;
-    margin: 2em 0;
-    padding: 0;
+    margin: 1em 0;
+    margin-top: 60px;
     text-align: center;
 }
 

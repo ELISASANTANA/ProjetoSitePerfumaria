@@ -7,27 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Cadastro.css">
     <link rel="shortcut icon" href="imagens/Logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <title>Sua conta</title>
 </head>
 
 <body>
+    <div class="top">
+        <img src="imagens/topnovo.jpg" alt="HeaderTop" class="center">
+    </div>
+    <!-- Cabeçalho padrão do site -->
     <header class="header">
         <div>
             <div id="logo"><img src="imagens/Logo.png" alt="LogoPerfumaria" id="logo">
             </div>
         </div>
-
         <div>
             <h1>parfumerie chicos</h1>
         </div>
-
         <nav>
             <div class="searchArea">
                 <img class="searchIcon" src="imagens/searchicon.svg" alt="botao de pesquisa">
                 <input type="search" name="search" placeholder="Navegue em nosso site" class="searchBox">
             </div>
-
+            <!-- Barra de navegação -->
             <div>
                 <ul>
                     <li><a href="#">Perfumes</a></li>
@@ -39,7 +41,6 @@
             </div>
         </nav>
     </header>
-
     <h2>CADASTRO</h2>
     <div class="form">
         <form action="" method="">
@@ -141,29 +142,29 @@
             </div>
         </form>
     </div>
-    <div class="hrLine"><hr></div>
+    <div class="hrLine">
+        <hr>
+    </div>
     <footer>
-        <div class="pay">
-            <h4>Formas de pagamento</h4>
-            <ul>
-                <li><a href="#"><img src="imagens/barcode.png" alt="Boleto" title=Boleto></a></li>
-                <li><a href="#"><img src="imagens/visa.png" alt="Cartão Bandeira Visa" title=Visa></a></li>
-                <li><a href="#"><img src="imagens/mastercard.png" alt="Cartão Bandeira Mstercard" title=Mastercard></a>
-                </li>
-                <li><a href="#"><img src="imagens/dinners.png" alt="Cartão Bandeira Dinners" title=Diners></a>
-                </li>
-                <li><a href="#"><img src="imagens/elo.png" alt="Cartão Bandeira Elo" title=Elo></a></li>
-
-            </ul>
-        </div>
-
-        <div class="container">
-            <div class="tel">
+        <div class="firstRow">
+            <div>
+                <h4>Formas de pagamento</h4>
+                <ul>
+                    <li><a href="#"><img src="imagens/barcode.png" alt="Boleto" title=Boleto></a></li>
+                    <li><a href="#"><img src="imagens/visa.png" alt="Cartão Bandeira Visa" title=Visa></a></li>
+                    <li><a href="#"><img src="imagens/mastercard.png" alt="Cartão Bandeira Mstercard"
+                                title=Mastercard></a>
+                    </li>
+                    <li><a href="#"><img src="imagens/dinners.png" alt="Cartão Bandeira Dinners" title=Diners></a>
+                    </li>
+                    <li><a href="#"><img src="imagens/elo.png" alt="Cartão Bandeira Elo" title=Elo></a></li>
+                </ul>
+            </div>
+            <div>
                 <p>Atendimento por telefone</p>
                 <p>(12) 3069 5462 / 0900 895 8421</p>
-            
             </div>
-            <div class="sociais">
+            <div>
                 <p>Nos acompanhe nas redes sociais</p>
                 <ul>
                     <li><a href="#"><img src="imagens/iconFB.png" alt="Icon Facebook"></a></li>
@@ -172,13 +173,16 @@
                 </ul>
             </div>
         </div>
-            <div class="address">
-                <address>
-                    PARFUMERIE CHICOS S/A - CNPJ: 34.960.679/0001-82</p>
-                    Endereço: Rua Rio Grande do Sul, 0256 - Bairro Rio Comprido, Jacareí/SP CEP 12302-022
-                    &copy PARFUMERIE CHICOS
-                </address>
-            </div>
+
+        </div>
+        <div>
+            <address class="address">
+                <p>PARFUMERIE CHICOS S/A - CNPJ: 34.960.679/0001-82</p>
+                Endereço: Rua Rio Grande do Sul, 0256 - Bairro Rio Comprido, Jacareí/SP CEP 12302-022</p>
+                
+            </address>
+                <p style="text-align: center;">&copy PARFUMERIE CHICOS</p>
+        </div>
     </footer>
 </body>
 
